@@ -2,18 +2,28 @@ function getView(){
     let view = {
         body:()=>{
             return `
+                <div class="row">
+                    <div class="col-6">
+                        <label class="text-secondary" style="font-size:80%" id="lbNomClien">
+                            Consumidor Final
+                        </label>
+                    </div>
+                    <div class="col-6 text-right">
+                        <h1 id="txtTotalVenta" class="text-danger negrita"></h1>
+                    </div>
+                </div>
+
                 <div class="col-12 p-0">
                     <div class="tab-content" id="myTabHomeContent">
                         <div class="tab-pane fade show active" id="pedido" role="tabpanel" aria-labelledby="dias-tab">
                                 ${view.encabezadoClienteDocumento() 
                                     + view.gridTempVenta() 
-                                    + view.modalBusquedaCliente() 
-                                    + view.modalNuevoCliente() }
+                                    + view.modalCambiarCantidadProducto()
+                                }
                         </div>
                         <div class="tab-pane fade" id="precios" role="tabpanel" aria-labelledby="clientes-tab">
                                     ${view.lista_productos() 
                                         + view.modalCantidadProducto()
-                                        + view.modalCambiarCantidadProducto()
                                     }
                         </div>
 
@@ -109,41 +119,22 @@ function getView(){
         gridTempVenta :()=>{
             return `
         <div class="row">
-            <label class="text-info" id="lbNomClien">Consumidor Final</label>
-            <div id="panel-2" class="panel col-12">
-
-                <div class="panel-hdr">
-                   
+           
+                <div class="panel-hdr col-12">
                     <h2 id="txtTotalItems" class="negrita">0 items</h2>
-                    <div class="panel-toolbar">
-
-                                                                   
-                        <button class="btn btn-sm btn-outline-secondary hand hidden">
-                        </button>
-
-                        <h1 id="txtTotalVenta" class="text-danger negrita"></h1>
-                        
-                        <button class="btn btn-outline-warning btn-md shadow hidden" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen" id="btnMaxVenta">
-                            <i class="fal fa-angle-double-up"></i>
-                        </button>
-                    </div>
                 </div>
-                <div class="panel-container show">
-                    <div class="panel-content">
                         
-                        <div class="table-responsive border-top-rounded border-bottom-rounded shadow">
-                            <table class="table table-hover table-striped"><!--mt-5-->
-                                <thead class="bg-secondary text-white">
-                                    <tr>
-                                        <th class="">Producto</th>
-                                        <th class="">Subtotal</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblGridTempVentas"></tbody>
-                            </table>
-                        </div>
+                    <div class="table-responsive col-12">
+                        <table class="table table-hover table-striped"><!--mt-5-->
+                            <thead class="">
+                                <tr>
+                                    <td class=""></td>
+                                </tr>
+                            </thead>
+                            <tbody id="tblGridTempVentas"></tbody>
+                        </table>
                     </div>
-                    <div>
+
 
                         <button class="btn btn-xl btn-circle btn-secondary btn-bottom-l hand shadow" id="btnCambiarCliente">
                             <i class="fal fa-arrow-left"></i>
@@ -156,15 +147,7 @@ function getView(){
                         <button class="btn btn-circle btn-xl btn-success shadow btn-bottom-r hand" id="btnAgregarProd">
                             <i class="fal fa-plus"></i>
                         </button>
-
-                       
-
-                    </div>
-                </div>
-                
-                <div id="containerModalesVentas"></div>
-
-            </div>
+        
         </div>  
             `
         },
@@ -223,160 +206,36 @@ function getView(){
                
             `
         },
-        modalBusquedaCliente :()=>{
-            return `
-            <div class="modal fade  modal-with-scroll" id="ModalBusquedaCliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-left" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <label class="modal-title text-danger h3" id="">Búsqueda de Clientes</label>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i class="fal fa-times"></i></span>
-                            </button>
-                        </div>
-
-                        <div class="modal-body">
-                            <div class="input-group">
-                                    <input id="txtBusquedaCliente" type="text" ref="txtBusquedaCliente" class="form-control" placeholder="Buscar por nombre de cliente..." aria-label="" aria-describedby="button-addon4" />
-                                    <div class="input-group-prepend">
-                                        <button class="btn btn-info waves-effect waves-themed" type="button" id="btnBuscarCliente">
-                                            <i class="fal fa-search"></i>
-                                        </button>
-                                    </div>
-                            </div>
-                        <table class="table table-responsive table-striped table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <td>Nombre</td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody id="tblResultadoBusquedaCliente">
-                            
-
-                            </tbody>
-                        </table>
-                        </div>
-
-                    
-                    </div>
-                </div>
-            </div>
-            `
-        },
-        modalNuevoCliente :()=>{
-            return `
-            <div class="modal fade" id="ModalNuevoCliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <label class="modal-title text-danger h3" id="">Datos del Cliente</label>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i class="fal fa-times"></i></span>
-                            </button>
-                        </div>
-            
-                        <div class="modal-body">
-                            <form class="col-12" id="formNuevoCliente">
-                                <div class="form-group col-6">
-                                    <label>Código/NIT:</label>
-                                    <input type="text" class="form-control" id='txtClienteNit' required='true' readonly="true">
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group col-6">
-                                        <label>Nombre Cliente:</label>
-                                        <input type="text" class="form-control" id='txtClienteNombre' required='true'>
-                                    </div>                               
-                                    <div class="form-group col-6">
-                                        <label>Nombre para Factura:</label>
-                                        <input type="text" class="form-control" id='txtClienteNombreFac' required='true'>
-                                    </div>                               
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label>Dirección:</label>
-                                    <input type="text" class="form-control" id='txtClienteDireccion' required='true'>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group col-6">
-                                        <label>Teléfono:</label>
-                                        <div class="row">
-                                            <select class="form-control col-3">
-                                                <option value="502">+502</option>
-                                            </select>
-                                            <input type="number" class="form-control col-9" id='txtClienteTelefono'>    
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-6">
-                                        <label>Email:</label>
-                                        <input type="email" class="form-control" id='txtClienteEmail'>
-                                    </div>                               
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group col-7">
-                                        <label>Municipio:</label>
-                                        <select class="form-control" id="cmbClienteMunicipio">
-                                            <option value="01">GUATEMALA</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-5">
-                                        <label>Departamento:</label>
-                                        <select class="form-control" id="cmbClienteDepartamento">
-                                            <option value="01">GUATEMALA</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group col-6">
-                                    <label>Tipo de Precio:</label>
-                                    <select class="form-control" id="cmbClienteTipoPrecio">
-                                        
-                                    </select>
-                                </div>
-
-                                <div class="form-group table-scale-border-top border-left-0 border-right-0 border-bottom-0 text-right">
-                                    <br>
-                                    <button class="btn btn-warning btn-round btn-lg" data-dismiss="modal" id="btnCancelarCliente">
-                                        CANCELAR
-                                    </button>
-                                    <button class="btn btn-transparent"></button>
-                                    <input type="submit" class="btn btn-primary btn-round btn-lg" value="GUARDAR">
-                                        
-                                </div>
-
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            `
-        },
         finalizar_pedido :()=>{
             return `
             <div class="card">
-                <div class="card-header bg-info">
-                    <label class="modal-title text-white h3" id="">Datos del Cobro</label>
+                <div class="card-header bg-secondary">
+                    <label class="modal-title text-white h5" id="">Datos del Cobro</label>
                 </div>
+
                 <div class="card-body">
                     <div class="">                            
                        
-                        <div class="form-group">
-                            <label>Fecha de Facturación:</label>
-                            <input type="date" class="form-control bg-subtlelight pl-4 text-sm" id="txtFecha">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Fecha:</label>
+                                    <input type="date" class="form-control bg-subtlelight pl-4 text-sm" id="txtFecha">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Forma de Pago:</label>
+                                    <select id="cmbEntregaConcre" class="form-control">
+                                        <option value="CREDITO">CREDITO</option>
+                                        <option value="CONTADO">CONTADO</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                                        
-                        <div class="form-group">
-                            <label>Forma de Pago:</label>
-                            <select id="cmbEntregaConcre" class="form-control">
-                                <option value="CREDITO">CREDITO</option>
-                                <option value="CONTADO">CONTADO</option>
-                            </select>
-                        </div>
-
+                        
+                        <br>
+                        
                         <div class="form-group">  
                             <div class="row">
                                 <div class="col-6">
@@ -413,7 +272,7 @@ function getView(){
                 
                             <div class="col-5">
                                 <button class="btn btn-info btn-lg btn-pills btn-block waves-effect waves-themed" id="btnFinalizarPedido">
-                                    <i class="fal fa-paper-plane mr-1"></i>Generar Factura
+                                    <i class="fal fa-dollar-sign mr-1"></i>Enviar Pedido
                                 </button>
                             </div>
                         </div>
@@ -448,13 +307,13 @@ function getView(){
         modalCantidadProducto:()=>{
             return `
             <div class="modal fade" id="ModalCantidadProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-right" role="document">
+                <div class="modal-dialog modal-dialog-md" role="document">
                     <div class="modal-content">
                         <br><br><br><br><br>
                         <div class="modal-header">
-                            <label class="modal-title" id="txtDesProducto">Azucar don Justo Cabal Kilo</label>
+                            <label class="modal-title negrita text-danger" id="txtDesProducto">Azucar don Justo Cabal Kilo</label>
                         </div>
-                        <div class="modal-body" align="right">
+                        <div class="modal-body" align="center">
                             <div class="col-8">
                                 <div class="row">
                                     <b id="txtCodMedida">UNIDAD</b>
@@ -465,15 +324,15 @@ function getView(){
                                         <div class="input-group">
                                 
                                             <div class="input-group-prepend">
-                                                <button class="btn btn-md btn-icon btn-round btn-info" id="btnCantidadDown">
+                                                <button class="btn btn-circle btn-xl btn-icon btn-round btn-danger" id="btnCantidadDown">
                                                     -
                                                 </button>
                                             </div>
                                 
-                                            <input type="number" class="text-center form-control" id="txtCantidad" value="1">    
+                                            <input type="number" class="text-center form-control negrita" style="font-size:180%" id="txtCantidad" value="1">    
                                 
                                             <div class="input-group-append">
-                                                <button class="btn btn-md btn-icon btn-round btn-info" id="btnCantidadUp">
+                                                <button class="btn btn-circle btn-xl btn-icon btn-round btn-success" id="btnCantidadUp">
                                                     +
                                                 </button>    
                                             </div>
@@ -483,21 +342,22 @@ function getView(){
 
                                 <div class="col-12">
                                     <label>Precio: </label>
-                                    <label class="text-success" id="txtPrecioProducto">Q500</label>
+                                    <label class="text-secondary h3 negrita" id="txtPrecioProducto">Q500</label>
                                     <br>
                                     <label>Subtotal:</label>
-                                    <label class="text-danger" id="txtSubTotal">Q500</label>
+                                    <label class="text-danger h1 negrita" id="txtSubTotal">Q500</label>
                                 </div>
+                                <br>
                                 <br>
                                 <div class="row">
                                     <div class="col-6">
-                                        <button type="button" class="btn btn-outline-secondary btn-round" data-dismiss="modal" id="btnCancelarModalProducto">
-                                            <i class="fal fa-ban"></i>Cancelar
+                                        <button type="button" class="btn btn-circle btn-secondary btn-xl hand shadow" data-dismiss="modal" id="btnCancelarModalProducto">
+                                            <i class="fal fa-arrow-left"></i>
                                         </button>
                                     </div>
                                     <div class="col-6">
-                                        <button type="button" class="btn btn-primary btn-round" id="btnAgregarProducto">
-                                            <i class="fal fa-check"></i>Agregar
+                                        <button type="button" class="btn btn-info btn-circle btn-xl hand shadow" id="btnAgregarProducto">
+                                            <i class="fal fa-check"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -568,9 +428,6 @@ function getView(){
     root.innerHTML = view.body(); 
 
 
-    let containerModalesVentas = document.getElementById('containerModalesVentas');
-    containerModalesVentas.innerHTML = ''
-
 };
 
 async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
@@ -591,20 +448,7 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
     let txtFecha = document.getElementById('txtFecha');txtFecha.value = funciones.getFecha();
     let txtEntregaFecha = funciones.getFecha();// document.getElementById('txtEntregaFecha');txtEntregaFecha.value = funciones.getFecha();
 
-    // listener para el nit
-    let txtNit = document.getElementById('txtNit');
-    txtNit.addEventListener('keydown',(e)=>{
-        if(e.code=='Enter'){
-            fcnBuscarCliente('txtNit','txtNombre','txtDireccion');    
-        }
-        if(e.code=='NumpadEnter'){
-            fcnBuscarCliente('txtNit','txtNombre','txtDireccion');    
-        }
-    });
-
-    document.getElementById('btnBuscarCliente').addEventListener('click',()=>{
-        //fcnBuscarCliente('txtNit','txtNombre','txtDireccion');    
-    });
+   
 
     document.getElementById('txtBusqueda').addEventListener('keyup',(e)=>{
         if(e.code=='Enter'){
@@ -667,75 +511,17 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
         document.getElementById('tab-pedido').click();
     });
 
-    
-    //BUSQUEDA CLIENTES
-    let frmNuevoCliente = document.getElementById('formNuevoCliente');
-    frmNuevoCliente.addEventListener('submit',(e)=>{
-        e.preventDefault();
-        funciones.Confirmacion('¿Está seguro que desea guardar este cliente?')
-        .then((value)=>{
-            if(value==true){
-                fcnGuardarNuevoCliente(frmNuevoCliente);
-            }
-        })
 
-    });
-
-    let btnBusquedaClientes = document.getElementById('btnBusquedaClientes');
-    btnBusquedaClientes.addEventListener('click',()=>{
-        $('#ModalBusquedaCliente').modal('show');
-    });
-    
-    let txtBusquedaCliente = document.getElementById('txtBusquedaCliente');
-    txtBusquedaCliente.addEventListener('keyup',(e)=>{
-        if(e.code=='Enter'){
-            fcnBusquedaCliente('txtBusquedaCliente','tblResultadoBusquedaCliente');
-        }
-        if(e.code=='NumpadEnter'){
-            fcnBusquedaCliente('txtBusquedaCliente','tblResultadoBusquedaCliente');
-        }
-    });
-
-    document.getElementById('btnBuscarCliente').addEventListener('click',()=>{
-        fcnBusquedaCliente('txtBusquedaCliente','tblResultadoBusquedaCliente');
-    });
-    document.getElementById('btnNuevoCliente').addEventListener('click',()=>{
-        //$('#ModalNuevoCliente').modal('show');
-        if(txtNit.value!==''){
-            fcnBuscarCliente('txtNit','txtNombre','txtDireccion');
-        }else{
-            funciones.AvisoError('Escriba el NIT o código de cliente para comprobar');
-        };
-        
-    })
-
-     
-    // EVENTOS DE LOS BOTONES
-    document.body.addEventListener('keyup',(e)=>{
-        if(GlobalSelectedForm=='VENTAS'){
-            switch (e.keyCode) {
-                case 118: //f7
-                    btnCobrar.click();
-                    break;
-                case 113: //f2
-                    btnBusquedaClientes.click();
-                    //createNotification('hola mundo');
-                default:
-                    break;
-            }    
-        }
-    });
 
     // carga el grid
-   
+    fcnCargarGridTempVentas('tblGridTempVentas');
     
     await classTipoDocumentos.fcnCorrelativoDocumento('PED',cmbCoddoc.value,'txtCorrelativo');
-    await fcnCargarGridTempVentas('tblGridTempVentas');
+    
     //await fcnCargarTotal('txtTotalVenta','txtTotalVentaCobro');
 
     cmbVendedor.value = GlobalCodUsuario;
 
-    fcnCargarComboTipoPrecio();
   
     // inicializa la calculadora de cantidad
     //iniciarModalCantidad();
@@ -1044,7 +830,7 @@ async function fcnCargarGridTempVentas(idContenedor){
     let coddoc = document.getElementById('cmbCoddoc').value;
     
     let containerTotalVenta = document.getElementById('txtTotalVenta');
-    containerTotalVenta.innerHTML = '--';
+    containerTotalVenta.innerText = '--';
 
     let containerTotalItems = document.getElementById('txtTotalItems');
     containerTotalItems.innerHTML = '--'
@@ -1058,54 +844,62 @@ async function fcnCargarGridTempVentas(idContenedor){
                 varTotalItems += 1;
                 varTotalVenta = varTotalVenta + Number(rows.TOTALPRECIO);
                 varTotalCosto = varTotalCosto + Number(rows.TOTALCOSTO);
-                return `<tr id="${rows.ID.toString()}" class="border-bottom" ondblclick="funciones.hablar('${rows.DESPROD}')">
-                            <td class="text-left">
-                                ${rows.DESPROD}
+                return `
+                <tr id="${rows.ID.toString()}" class="border-secondary card card-rounded bg-white" ondblclick="funciones.hablar('${rows.DESPROD}')">
+                    <td class="text-left">
+                        ${rows.DESPROD}
+                        <br>
+                        <div class="row">
+                            <div class="col-6">
+                                <small class="negrita"><b>${rows.CODPROD} (Equivale: ${rows.EQUIVALE})</b></small>
                                 <br>
-                                <small class="text-danger"><b>${rows.CODPROD} (${rows.EQUIVALE} item)</b></small>
-                                <br>
-                                    <small>
-                                        Cant:<b class="text-danger h4" id=${idcant}>${rows.CANTIDAD}</b>  ${rows.CODMEDIDA}  ||  Precio:<b>${funciones.setMoneda(rows.PRECIO,'Q')}</b>
-                                    </small>
-                                <br>
-                                <div class="row">
-                                    <div class="col-4"></div>
-                                    <div class="col-4 " align="right">
-                                        <button class="btn btn-secondary btn-sm btn-circle" onClick="fcnCambiarCantidad(${rows.ID},${rows.CANTIDAD},'${rows.CODPROD}',${rows.EXISTENCIA},${rows.PRECIO});">
-                                            <i class="fal fa-edit"></i>
-                                        </button>    
-                                    </div>
-                                    <div class="col-4 text-right" align="right">
-                                        <button class="btn btn-sm btn-danger btn-circle" onclick="fcnEliminarItem(${rows.ID});">
-                                            <i class="fal fa-trash"></i>
-                                        </button>    
-                                    </div>
+                                <small>
+                                    Cantidad:<b class="text-info h4" id=${idcant}>${rows.CANTIDAD}</b>  ${rows.CODMEDIDA}  -  Precio Un:<b class="text-info h4">${funciones.setMoneda(rows.PRECIO,'Q')}</b>
+                                </small>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-right" id=${'S'+idcant}>
+                                    <b class="text-danger" style="font-size:120%">${funciones.setMoneda(rows.TOTALPRECIO,'Q')}</b>
                                 </div>
-                            </td>
-                                                        
-                            <td class="text-right" id=${'S'+idcant}>${funciones.setMoneda(rows.TOTALPRECIO,'Q')}</td>
-                            
-                        </tr>`
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-4 " align="right">
+                                <button class="btn btn-secondary btn-sm" onClick="fcnCambiarCantidad(${rows.ID},${rows.CANTIDAD},'${rows.CODPROD}',${rows.EXISTENCIA},${rows.PRECIO});">
+                                    <i class="fal fa-edit"></i>Editar
+                                </button>    
+                            </div>
+                            <div class="col-4 text-right" align="right">
+                                <button class="btn btn-sm btn-danger" onclick="fcnEliminarItem(${rows.ID});">
+                                    <i class="fal fa-trash"></i>Quitar
+                                </button>    
+                            </div>
+                        </div>
+                    </td>
+                    <br>                                        
+                </tr>`
            }).join('\n');
            tabla.innerHTML = data;
            GlobalTotalDocumento = varTotalVenta;
            GlobalTotalCostoDocumento = varTotalCosto;
-           containerTotalVenta.innerHTML = `${funciones.setMoneda(GlobalTotalDocumento,'Q ')}`;
+           containerTotalVenta.innerText = funciones.setMoneda(GlobalTotalDocumento,'Q ');
+           
            if(GlobalTotalDocumento==0){
                 btnCobrarTotal.disabled = true;
            }else{
                 btnCobrarTotal.disabled = false;
            }
-             //innerHTML = '<h1>Terminar : ' + funciones.setMoneda(GlobalTotalDocumento,'Q ') + '</h1>';
            containerTotalItems.innerHTML = `${varTotalItems} items`;
         })
     } catch (error) {
         console.log('NO SE LOGRO CARGAR LA LISTA ' + error);
         tabla.innerHTML = 'No se logró cargar la lista...';
-        containerTotalVenta.innerHTML = '0';
+        containerTotalVenta.innerText = '0';
         btnCobrarTotal.disabled = true; //innerText =  'Terminar';
         containerTotalItems.innerHTML = `0 items`;
     }
+
 };
 
 async function fcnUpdateTempRow(id,cantidad,precio){
@@ -1145,225 +939,13 @@ async function fcnCambiarCantidad(id,cantidad,codprod, existencia,precio){
 };
 
 
-//CLIENTE
-async function fcnBuscarCliente(idNit,idNombre,idDireccion){
-    return;
-
-    let nit = document.getElementById(idNit);
-    let nombre = document.getElementById(idNombre);
-    let direccion = document.getElementById(idDireccion);
-
-    axios.get('/ventas/buscarcliente?empnit=' + GlobalEmpnit + '&nit=' + nit.value  + '&app=' + GlobalSistema)
-    .then((response) => {
-        const data = response.data;
-        if (data.rowsAffected[0]==0){
-            funciones.AvisoError('No existe un cliente con este código')
-            nit.value = '';
-            nombre.value = '';
-            direccion.value = '';
-        }else{
-            data.recordset.map((rows)=>{
-                GlobalSelectedCodCliente= nit.value;
-                nombre.value = rows.NOMCLIENTE;
-                direccion.value = rows.DIRCLIENTE;
-            });
-        }
-        
-                
-    }, (error) => {
-        console.log(error);
-    });
-};
-
-async function fcnBusquedaCliente(idFiltro,idTablaResultado){
-    
-    let filtro = document.getElementById(idFiltro).value;
-    let tabla = document.getElementById(idTablaResultado);
-    tabla.innerHTML = GlobalLoader;
 
 
-    let str = ""; 
-    axios.get('/clientes/buscarcliente?empnit=' + GlobalEmpnit + '&filtro=' + filtro + '&app=' + GlobalSistema)
-    .then((response) => {
-        const data = response.data;        
-        data.recordset.map((rows)=>{
-            str += `<tr id="${rows.CODCLIE}">
-                        <td>
-                            ${rows.NOMCLIE}
-                            <br>
-                            <small class="bg-warning">Código: ${rows.CODCLIE} / Nit: ${rows.NIT}</small>
-                            <br>
-                            <small>${rows.DIRCLIE},${rows.DESMUNICIPIO}</small>
-                        </td>
-                        
-                        <td>
-                            <button class="btn btn-sm btn-success btn-circle text-white" 
-                            onclick="fcnAgregarClienteVenta('${rows.CODCLIE}','${rows.NIT}','${rows.NOMCLIE}','${rows.DIRCLIE}')">
-                                +
-                            </button>
-                        <td>
-                    </tr>`
-        })
-        tabla.innerHTML= str;
-        
-    }, (error) => {
-        console.log(error);
-    });
-
-};
-
-async function fcnAgregarClienteVenta(codigo,nit,nombre,direccion){
-    GlobalSelectedCodCliente = codigo;
-    document.getElementById('tblResultadoBusquedaCliente').innerHTML = '';
-    document.getElementById('txtNit').value = codigo; //nit;
-    document.getElementById('txtNombre').value = nombre;
-    document.getElementById('txtDireccion').value = direccion;
-    $('#ModalBusquedaCliente').modal('hide');  
-};
-
-async function fcnGuardarNuevoCliente(form){
-    
-    let nit = form[0].value;
-    let nomclie = form[1].value;
-    let nomfac = form[2].value;
-    let dirclie = form[3].value;
-    let codpais = form[4].value;
-    let telclie = form[5].value;
-    let emailclie = form[6].value;
-    let codmunicipio = form[7].value;
-    let coddepto = form[8].value;
-    let tipoprecio = form[9].value;
-
-    let codven = document.getElementById('cmbVendedor').value;
-
-    // OBTIENE LA LATITUD Y LONGITUD DEL CLIENTE
-    let lat = ''; let long = '';
-    try {navigator.geolocation.getCurrentPosition(function (location) {lat = location.coords.latitude.toString();long = location.coords.longitude.toString(); })
-    } catch (error) {lat = '0'; long = '0'; };
-    
-    // FECHA DE CREACION DEL CLIENTE
-    let f = funciones.getFecha();
-
-    axios.post('/clientes/clientenuevo', {
-        app:GlobalSistema,
-        empnit: GlobalEmpnit,
-        codclie:nit,
-        nitclie:nit,
-        nomclie:nomclie,
-        nomfac:nomfac,
-        dirclie:dirclie,
-        coddepto:coddepto,
-        codmunicipio:codmunicipio,
-        codpais:codpais,
-        telclie:telclie,
-        emailclie:emailclie,
-        codbodega:GlobalCodBodega,
-        tipoprecio:tipoprecio,
-        lat:lat,
-        long:long,
-        codven:codven,
-        fecha:f        
-    })
-    .then((response) => {
-        const data = response.data;
-        if (data.rowsAffected[0]==0){
-            funciones.AvisoError('No se logró Guardar el nuevo cliente');
-        }else{
-            funciones.Aviso('Nuevo Cliente Agregado Exitosamente !!')
-            document.getElementById('txtNit').value = nit;
-            document.getElementById('txtNombre').value = nomclie;
-            document.getElementById('txtDireccion').value = dirclie;
-            document.getElementById('btnCancelarCliente').click();
-        }
-    }, (error) => {
-        funciones.AvisoError('No se logró Guardar el nuevo cliente');
-        console.log(error);
-    });
-
-
-};
-
-
-
-
-async function fcnEliminarTempVentas(usuario){
-    let coddoc = document.getElementById('cmbCoddoc').value;
-    axios.post('/ventas/tempVentastodos', {
-        empnit: GlobalEmpnit,
-        usuario:usuario,
-        coddoc:coddoc,
-        app:GlobalSistema
-    })
-    .then((response) => {
-        const data = response.data;
-        if (data.rowsAffected[0]==0){
-            funciones.AvisoError('No se logró Eliminar la lista de productos agregados');
-        }else{
-            
-        }
-    }, (error) => {
-        console.log(error);
-    });
-};
 
 async function fcnNuevoPedido(){
     
-    classNavegar.inicio('VENDEDOR');
-    
-};
-
-
-
-async function fcnGetMunicipios(idContainer){
-    let container = document.getElementById(idContainer);
-    container.innerHTML = GlobalLoader;
-
-    let str = ""; 
-    axios.get('/clientes/municipios?empnit=' + GlobalEmpnit + '&app=' + GlobalSistema)
-    .then((response) => {
-        const data = response.data;        
-        data.recordset.map((rows)=>{
-            str += `<option value='${rows.CODMUNICIPIO}'>${rows.DESMUNICIPIO}</option>`
-        })
-        container.innerHTML= str;
-        
-    }, (error) => {
-        console.log(error);
-        container.innerHTML = '';
-    });
-};
-
-async function fcnGetDepartamentos(idContainer){
-    let container = document.getElementById(idContainer);
-    container.innerHTML = GlobalLoader;
-
-    let str = ""; 
-    axios.get('/clientes/departamentos?empnit=' + GlobalEmpnit + '&app=' + GlobalSistema)
-    .then((response) => {
-        const data = response.data;        
-        data.recordset.map((rows)=>{
-            str += `<option value='${rows.CODDEPTO}'>${rows.DESDEPTO}</option>`
-        })
-        container.innerHTML= str;
-        
-    }, (error) => {
-        console.log(error);
-        container.innerHTML = '';
-    });
-};
-
-async function fcnCargarComboTipoPrecio(){
-   let cmbp = document.getElementById('cmbClienteTipoPrecio');
-   if(GlobalSistema=='ISC'){
-    cmbp.innerHTML =`<option value="P">PÚBLICO</option>
-                     <option value="M">MAYORISTA</option>`;
-   }else{
-    cmbp.innerHTML =`<option value="P">PÚBLICO</option>
-                     <option value="C">MAYORISTA C</option>
-                     <option value="B">MAYORISTA B</option>
-                     <option value="A">MAYORISTA A</option>`;
-   }
-   
+    //classNavegar.inicio('VENDEDOR');
+    classNavegar.inicio_vendedor();
 };
 
 
@@ -1371,24 +953,14 @@ async function fcnCargarComboTipoPrecio(){
 //FINALIZAR PEDIDO
 async function fcnFinalizarPedido(){
     
-    /* 
-    if(Number(GlobalTotalDocumento)<Number(GlobalVentaMinima)){
-        funciones.AvisoError('Pedido menor al mínimo de venta');
-        try {
-            funciones.hablar('Advertencia. Este pedido es menor al mínimo de venta permitido');    
-        } catch (error) {          
-        }      
-    };
-    */
     fcnCargarGridTempVentas('tblGridTempVentas');
-
 
     if(GlobalSelectedCodCliente.toString()=='SI'){funciones.AvisoError('Datos del cliente incorrectos, por favor, seleccione cliente nuevamente');return;}
 
     let codcliente = GlobalSelectedCodCliente;
-    let ClienteNombre = document.getElementById('txtNombre').value;
-    let dirclie = document.getElementById('txtDireccion').value; // CAMPO DIR_ENTREGA
-    let obs = document.getElementById('txtEntregaObs').value; 
+    let ClienteNombre = funciones.limpiarTexto(document.getElementById('txtNombre').value);
+    let dirclie = funciones.limpiarTexto(document.getElementById('txtDireccion').value); // CAMPO DIR_ENTREGA
+    let obs = funciones.limpiarTexto(document.getElementById('txtEntregaObs').value); 
     let direntrega = "SN"; //document.getElementById('txtEntregaDireccion').value; //CAMPO MATSOLI
     let codbodega = GlobalCodBodega;
     let cmbTipoEntrega = document.getElementById('cmbEntregaConcre').value; //campo TRANSPORTE
@@ -1413,7 +985,7 @@ async function fcnFinalizarPedido(){
     let longdoc = document.getElementById('lbDocLong').innerText;
 
 
-    document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-paper-plane mr-1 fa-spin"></i>';
+    document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1 fa-spin"></i>';
     document.getElementById('btnFinalizarPedido').disabled = true;
 
     gettempDocproductos(GlobalUsuario)
@@ -1458,12 +1030,12 @@ async function fcnFinalizarPedido(){
             .then((value)=>{
                 if(value==true){
 
-                    setLog(`<label class="text-danger">Creando el pedido a enviar...</label>`,'rootWait');
-                    $('#modalWait').modal('show');
+                    //setLog(`<label class="text-danger">Creando el pedido a enviar...</label>`,'rootWait');
+                    //$('#modalWait').modal('show');
                                                 
                     //ENVIANDOLO ONLINE
                         
-                        setLog(`<label class="text-info">Pedido creado, enviado pedido...</label>`,'rootWait');
+                        //setLog(`<label class="text-info">Pedido creado, enviado pedido...</label>`,'rootWait');
                                     
                         axios.post('/ventas/insertventa', {
                             jsondocproductos:JSON.stringify(response),
@@ -1495,66 +1067,26 @@ async function fcnFinalizarPedido(){
                             fecha_operacion:funciones.getFecha()
                         })
                         .then(async(response) => {
-                            const data = response.data;
-                            if (data.rowsAffected[0]==0){
-                                
-                                setLog(`<label class="text-info">No se logró Enviar este pedido, se intentará guardarlo en el teléfono</label>`,'rootWait');
-                                                    
-                                insertVenta(datospedido)
-                                .then(async()=>{   
-                                    hideWaitForm();
-                                    document.getElementById('btnEntregaCancelar').click();                                                                                       
-                                    //actualiza la ubicación del empleado
-                                    await classEmpleados.updateMyLocation();           
-                                    //actualiza la última venta del cliente
-                                    apigen.updateClientesLastSale(nit,'VENTA');            
-                                    //elimina el temp ventas asociado al empleado
-                                    deleteTempVenta(GlobalUsuario)
-                                                                    
-                                    funciones.showToast('El pedido será guardado localmente, recuerde enviarlo');
-                                            
-                                    //prepara todo para un nuevo pedido
-                                    fcnNuevoPedido();
-                                })
-                                .catch(()=>{
-                                    hideWaitForm();    
-                                    
-                                    document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-paper-plane mr-1"></i>Solicitar Factura';
-                                    document.getElementById('btnFinalizarPedido').disabled = false;
-
-                                    funciones.AvisoError('No se pudo guardar este pedido');
-                                })
+                            if(response.data=='error'){
+                                document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Enviar Pedido';
+                                document.getElementById('btnFinalizarPedido').disabled = false;
+    
+                                funciones.AvisoError('No se pudo guardar este pedido');        
 
                             }else{
-
-                                setLog(`<label class="text-info">Pedido enviado, generando factura FEL...</label>`,'rootWait');
-                       
-                                funciones.fcn_solicitar_fel_directo(coddoc,funciones.getCorrelativo_isc(correlativoDoc),nitdocumento,ClienteNombre,dirclie,'GUATEMALA','GUATEMALA','SN',fecha)
-                                .then((uudi)=>{
-                                    hideWaitForm();
-
-                                    funciones.Aviso('Factura Generada Exitosamente !!!')
-                                    document.getElementById('btnEntregaCancelar').click();                                                           
-                                    //actualiza la ubicación del empleado
-                                    classEmpleados.updateMyLocation();            
-                                    //actualiza la última venta del cliente
-                                    apigen.updateClientesLastSale(nit,'VENTA');
-                                    //elimina el temp ventas asociado al empleado
-                                    deleteTempVenta(GlobalUsuario);
-                                         
-                                    //imprime el pedido
-                                    funciones.imprimirTicket_uudi(uudi);
-                                    //prepara todo para un nuevo pedido
-                                    fcnNuevoPedido();
-                                })
-                                .catch((error)=>{
-                                    hideWaitForm();
-
-                                    funciones.AvisoError('No se generó la factura. Intente nuevamente desde la lista de Pedidos');
-                                  
-                                    document.getElementById('btnEntregaCancelar').click();
-                                    $("#ModalFinalizarPedido").modal('hide');                                                          
-                                    //actualiza la ubicación del empleado
+                                const data = response.data;
+                                if (data.rowsAffected[0]==0){
+                                    
+                                    //setLog(`<label class="text-info">No se logró Enviar este pedido, se intentará guardarlo en el teléfono</label>`,'rootWait');
+                                    document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Enviar Pedido';
+                                    document.getElementById('btnFinalizarPedido').disabled = false;
+    
+                                    funciones.AvisoError('No se pudo guardar este pedido');               
+    
+                                }else{
+    
+                                    //setLog(`<label class="text-info">Pedido enviado, generando factura FEL...</label>`,'rootWait');
+                                    funciones.Aviso('Pedido enviado exitosamente!!')
                                     classEmpleados.updateMyLocation();            
                                     //actualiza la última venta del cliente
                                     apigen.updateClientesLastSale(nit,'VENTA');
@@ -1563,39 +1095,18 @@ async function fcnFinalizarPedido(){
                                          
                                     //prepara todo para un nuevo pedido
                                     fcnNuevoPedido();
-                                })
-                                            
-                                
+       
+                                }
                             }
+                            
                         }, (error) => {
-                            console.log(error);
-                            setLog(`<label class="text-info">Ha ocurrido un error y no se pudo enviar, se intentará guardar en el teléfono</label>`,'rootWait');
-                                                                
-                            insertVenta(datospedido)
-                            .then(async()=>{
-                                document.getElementById('btnEntregaCancelar').click();
-                                //actualiza la ubicación del empleado
-                                await classEmpleados.updateMyLocation();
-                                //actualiza la última venta del cliente
-                                apigen.updateClientesLastSale(nit,'VENTA');
-                                //elimina el temp ventas asociado al empleado
-                                deleteTempVenta(GlobalUsuario)                                                                                                               
-                                funciones.showToast('El pedido será guardado localmente, recuerde enviarlo');
-                                //prepara todo para un nuevo pedido
-                                fcnNuevoPedido();                                                    
-                                hideWaitForm();
-                            })
-                            .catch(()=>{
-                                hideWaitForm();
-                                document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-paper-plane mr-1"></i>Solicitar Factura';
+
+                                document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Enviar Pedido';
                                 document.getElementById('btnFinalizarPedido').disabled = false;
                                 funciones.AvisoError('No se pudo guardar este pedido')
-                            }) 
                         });        
-
-                    
                 }else{
-                    document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-paper-plane mr-1"></i>Solicitar Factura';
+                    document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Enviar Pedido';
                     document.getElementById('btnFinalizarPedido').disabled = false;
                                 
                 }
@@ -1603,31 +1114,15 @@ async function fcnFinalizarPedido(){
 
         })
         .catch(()=>{
-                                            
-                setLog(`<label class="text-info">No se logró Enviar este pedido, se intentará guardarlo en el teléfono</label>`,'rootWait');
-                $('#modalWait').modal('show');
-                                                                                
-                insertVenta(datospedido)
-                .then(async()=>{
-                    hideWaitForm();
-                    document.getElementById('btnEntregaCancelar').click();                                                                                       
-                    //actualiza la ubicación del empleado
-                    await classEmpleados.updateMyLocation();
-                    //actualiza la última venta del cliente
-                    apigen.updateClientesLastSale(nit,'VENTA');
-                    //elimina el temp ventas asociado al empleado
-                    deleteTempVenta(GlobalUsuario)
-                    funciones.showToast('El pedido será guardado localmente, recuerde enviarlo');
-                    //prepara todo para un nuevo pedido
-                    fcnNuevoPedido();
-                
-                })                    
+            document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Enviar Pedido';
+            document.getElementById('btnFinalizarPedido').disabled = false;
+            funciones.AvisoError('No se pudo enviar el pedido');                 
         })
 
     })
     .catch((error)=>{
-        hideWaitForm();
-        document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-paper-plane mr-1"></i>Solicitar Factura';
+        //hideWaitForm();
+        document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Enviar Pedido';
         document.getElementById('btnFinalizarPedido').disabled = false;
         funciones.AvisoError('No pude crear la tabla de productos del pedido ' + error);
     })

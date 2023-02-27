@@ -89,14 +89,14 @@ let FEL = {
     NITEmisor:"",
     NombreComercial:"GRANJA AVICOLA SANTA FE",
     NombreEmisor:"GRANJA AVICOLA SANTA FE, S.A.",
-    Direccion:"ALDEA DON GREGORIO ZONA 0",
+    Direccion:"CIUDAD",
     CodigoPostal:"06012",
     Municipio:"SANTA CRUZ NARANJO",
     Departamento:"SANTA ROSA",
     ACCESO_REQ_NOMBRE:"GRANJAASF",
-    ACCESO_REQ_CLAVE:"259F00",
-    ACCESO_FIRMA_USUARIO:"GRANJAASF",
-    ACCESO_FIRMA_CLAVE:"654fd0346131d4e1f83850558322dd57",
+    ACCESO_REQ_CLAVE:"AAAAFFDD",
+    ACCESO_FIRMA_USUARIO:"GRAN",
+    ACCESO_FIRMA_CLAVE:"654f",
     URL_REPORT_INFILE: "https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=",
     CONFIG_FEL_HABILITADO: 'SI'
 };

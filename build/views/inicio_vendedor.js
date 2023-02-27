@@ -53,9 +53,9 @@ function getView(){
 
             <div class="row">
                 <div class="col-6">
-                    <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('VENTAS')">
+                    <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('PEDIDOS')">
                         <div class="card-body p-6 text-secondary negrita">
-                           <i class="fal fa-edit negrita text-secondary" style="font-size:170%"></i> VENTAS 
+                           <i class="fal fa-edit negrita text-secondary" style="font-size:170%"></i>PEDIDOS 
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,22 @@ function getView(){
                     </div>
                 </div>
             </div>
-            
+            <br>
+            <div class="row">
+                <div class="col-6">
+                    <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('POS')">
+                        <div class="card-body p-6 text-secondary negrita">
+                           <i class="fal fa-tag negrita text-secondary" style="font-size:170%"></i>PUNTO DE VENTA 
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden card card-rounded shadow border-secondary hand" onclick="getMenu('CREDITOS')">
+                        <div class="card-body p-6 text-secondary negrita">
+                            <i class="fal fa-dollar-sign negrita text-secondary" style="font-size:170%"></i> CRÉDITOS 
+                        </div>
+                    </div>
+                </div>
+            </div>
             `
         }
     }
@@ -116,7 +131,7 @@ function initView(){
 function getMenu(opcion){
 
     switch (opcion) {
-        case 'VENTAS':
+        case 'PEDIDOS':
             classNavegar.lista_clientes();
             break;
         case 'CREDITOS':
@@ -126,7 +141,10 @@ function getMenu(opcion){
             
             break;
         case 'PRECIOS':
-            
+            classNavegar.lista_precios();
+            break;
+        case 'POS':
+            classNavegar.modulo_pos();
             break;
     }
 };

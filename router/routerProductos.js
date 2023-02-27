@@ -7,14 +7,17 @@ router.post('/lista_precios',async(req,res)=>{
     
     const {sucursal,filtro} = req.body;
 
-    let qry = `SELECT Productos.CODPROD, Productos.DESPROD, Precios.CODMEDIDA, 
-                Precios.EQUIVALE, Precios.COSTO, Precios.PRECIO AS PUBLICO, 
-                Precios.MAYORISTA AS MAYOREOC, 
-                Precios.ESCALA AS MAYOREOB, Precios.OFERTA AS MAYOREOA, 
+    let qry = `SELECT TOP 50 Productos.CODPROD, Productos.DESPROD, Precios.CODMEDIDA, 
+                Precios.EQUIVALE, Precios.COSTO, Precios.PRECIO, 
+                Precios.MAYORISTA AS PRECIOA, 
+                Precios.ESCALA AS PRECIOB, Precios.OFERTA AS PRECIOC, 
                 '' AS LASTUPDATE
     FROM Productos LEFT OUTER JOIN
     Precios ON Productos.CODPROD = Precios.CODPROD AND Productos.EMP_NIT = Precios.EMP_NIT AND Productos.EMP_NIT = Precios.EMP_NIT
-    WHERE (Productos.EMP_NIT = '${sucursal}') AND (Productos.DESPROD like '%${filtro}%')`;
+    WHERE 
+        (Productos.EMP_NIT = '${sucursal}') AND (Productos.DESPROD like '%${filtro}%')
+    OR
+        (Productos.EMP_NIT = '${sucursal}') AND (Productos.CODPROD='${filtro}')`;
 
     execute.Query(res,qry);
     

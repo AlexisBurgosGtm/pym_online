@@ -237,6 +237,8 @@ function deleteProductos(){
 
 function selectProducto(filtro) {
 
+
+    
     return new Promise(async(resolve,reject)=>{
         let f = new Date();
         if(GlobalSelectedDiaUpdated.toString()==f.getDate().toString()){

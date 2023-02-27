@@ -77,17 +77,22 @@ let classTipoDocumentos = {
             let data = {
                 empnit:GlobalEmpnit,
                 tipo:tipodoc,
-                coddoc:coddoc,
-                app:GlobalSistema
+                coddoc:coddoc
             }
 
             axios.post('/tipodocumentos/correlativodoc', data)
             .then((response) => {
-                const data = response.data;        
-                data.recordset.map((rows)=>{
-                    correlativo = `${rows.CORRELATIVO}`
-                })
-                resolve(correlativo.toString());            
+                console.log(response);
+                if(response.data=='error'){
+                    reject('0');
+                }else{
+                    const data = response.data;        
+                    data.recordset.map((rows)=>{
+                        correlativo = `${rows.CORRELATIVO}`
+                    })
+                    resolve(correlativo.toString());
+                }
+                            
             }, (error) => {
                 console.log(error);
                 reject('0');

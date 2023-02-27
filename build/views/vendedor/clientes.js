@@ -217,11 +217,11 @@ function getView(){
                     
                 </div>
             </div>
-            <div class="shortcut-menu align-left hidden">
-                <button class="btn btn-secondary btn-circle btn-xl" id="btnAtrasClientes">
+            
+            <button class="btn btn-secondary btn-bottom-l btn-circle btn-xl" id="btnAtrasClientes">
                     <i class="fal fa-arrow-left"></i>
-                </button>
-            </div>
+            </button>
+            
             `
         },
         modalMenuCliente: ()=>{
@@ -619,7 +619,7 @@ async function setRecordatorioVisita(codigo, nit, nombre, direccion){
 async function addListeners(){
 
     document.getElementById('btnAtrasClientes').addEventListener('click',()=>{
-        document.getElementById('tab-dias').click();
+        classNavegar.inicio_vendedor();
     });
     
     //document.getElementById('cmbEditTipoNegocio').innerHTML = funciones.getComboTipoClientes();

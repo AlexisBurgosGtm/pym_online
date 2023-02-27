@@ -47,7 +47,7 @@ let classNavegar = {
         await classEmpleados.updateMyLocation();
 
         //classNavegar.ventasMapaClientes();
-        classNavegar.inicioVendedorListado();
+        classNavegar.lista_clientes();
              
     },
     inicio_vendedor :async ()=>{
@@ -61,9 +61,17 @@ let classNavegar = {
     lista_clientes :async ()=>{
         funciones.loadScript('../views/vendedor/clientes.js','root')
         .then(async()=>{
-            GlobalSelectedForm='INICIO';
+            GlobalSelectedForm='CLIENTES';
             InicializarVista();
             window.history.pushState({"page":1}, "clientes", '/clientes');
+        })
+    },
+    lista_precios :async ()=>{
+        funciones.loadScript('../views/vendedor/precios.js','root')
+        .then(async()=>{
+            GlobalSelectedForm='PRECIOS';
+            initView();
+            window.history.pushState({"page":1}, "precios", '/clientes');
         })
     },
     inicio_censo :async ()=>{
@@ -202,5 +210,13 @@ let classNavegar = {
             initView();
             //window.history.pushState({"page":2}, "facturacion", GlobalUrl + '/facturacion')
         })
-    }
+    },
+    modulo_pos :async ()=>{
+        funciones.loadScript('../views/pos/pos.js','root')
+        .then(async()=>{
+            GlobalSelectedForm='POS';
+            initView();
+            window.history.pushState({"page":1}, "pos", '/pos');
+        })
+    },
 }
