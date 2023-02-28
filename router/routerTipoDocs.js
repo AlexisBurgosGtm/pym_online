@@ -53,11 +53,13 @@ router.get("/tipopedido", async(req,res)=>{
 
 // VENTAS BUSCAR PRODUCTO POR DESCRIPCION
 router.get("/correlativodoc", async(req,res)=>{
-    const {app,empnit,tipo,coddoc} = req.query;
+    const {sucursal,coddoc} = req.query;
         
     let qry ='';
 
-    qry = `SELECT CODDOC,CORRELATIVO FROM ME_TIPODOCUMENTOS WHERE CODSUCURSAL='${app}' AND TIPODOC='${tipo}' AND CODDOC='${coddoc}'`     
+    qry = `SELECT CODDOC,CORRELATIVO 
+                FROM TIPODOCUMENTOS 
+                WHERE EMP_NIT='${sucursal}' AND CODDOC='${coddoc}'`     
     
     execute.Query(res,qry);
 
@@ -65,12 +67,14 @@ router.get("/correlativodoc", async(req,res)=>{
 
 
 router.post("/correlativodoc", async(req,res)=>{
-    const {app,empnit,tipo,coddoc} = req.body;
+    const {app,sucursal,tipo,coddoc} = req.body;
         
     let qry ='';
 
-    qry = `SELECT CODDOC,CORRELATIVO FROM ME_TIPODOCUMENTOS WHERE CODSUCURSAL='${app}' AND TIPODOC='${tipo}' AND CODDOC='${coddoc}'`     
-    
+    qry = `SELECT CODDOC,CORRELATIVO 
+    FROM TIPODOCUMENTOS 
+    WHERE EMP_NIT='${sucursal}' AND CODDOC='${coddoc}'`     
+
     execute.Query(res,qry);
 
 });

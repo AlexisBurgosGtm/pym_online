@@ -1,3 +1,10 @@
+.img-auto {
+
+  width: 40%;
+  height: auto;
+
+}
+
 
 .btn-bottom-l { 
   position: fixed;
@@ -76,6 +83,19 @@
   background-color: rgb(107, 107, 107)
 }
 
+
+
+.bg-mostaza{
+    background: rgb(230, 145, 18);
+}
+
+.border-mostaza {
+  border-color: rgb(230, 145, 18);
+}
+
+.text-mostaza {
+  color: rgb(230, 145, 18); 
+}
 
 .bg-gris {
   background-color: #505050 !important; }

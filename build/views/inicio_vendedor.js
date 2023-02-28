@@ -45,67 +45,70 @@ function getView(){
             return `
             
             <div class="row">
-                <div class="col-12" align="center">
-                    <img src="./favicon.png" width="100px" height="100px">
-                </div>
-            </div>
-            <hr class="solid">
 
-            <div class="row">
-                <div class="col-6">
-                    <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('PEDIDOS')">
-                        <div class="card-body p-6 text-secondary negrita">
-                           <i class="fal fa-edit negrita text-secondary" style="font-size:170%"></i>PEDIDOS 
+                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 p-4" align="center">
+                    <h3 class="text-info negrita">PYM Online</h3>
+                    <img class="img-auto" src="./favicon.png">
+                </div>
+
+                <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('PEDIDOS')">
+                                <div class="card-body p-6 text-secondary negrita">
+                                <i class="fal fa-edit negrita text-secondary" style="font-size:170%"></i>PEDIDOS 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('CREDITOS')">
+                                <div class="card-body p-6 text-secondary negrita">
+                                    <i class="fal fa-dollar-sign negrita text-secondary" style="font-size:170%"></i> CRÉDITOS 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('INVENTARIOS')">
+                                <div class="card-body p-6 text-secondary negrita">
+                                <i class="fal fa-box negrita text-secondary" style="font-size:170%"></i> INVENTARIOS 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('PRECIOS')">
+                                <div class="card-body p-6 text-secondary negrita">
+                                    <i class="fal fa-book negrita text-secondary" style="font-size:170%"></i> PRECIOS 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('POS')">
+                                <div class="card-body p-6 text-secondary negrita">
+                                <i class="fal fa-tag negrita text-secondary" style="font-size:170%"></i>PUNTO DE VENTA 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden card card-rounded shadow border-secondary hand" onclick="getMenu('CREDITOS')">
+                                <div class="card-body p-6 text-secondary negrita">
+                                    <i class="fal fa-dollar-sign negrita text-secondary" style="font-size:170%"></i> CRÉDITOS 
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('CREDITOS')">
-                        <div class="card-body p-6 text-secondary negrita">
-                            <i class="fal fa-dollar-sign negrita text-secondary" style="font-size:170%"></i> CRÉDITOS 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-6">
-                    <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('INVENTARIOS')">
-                        <div class="card-body p-6 text-secondary negrita">
-                           <i class="fal fa-box negrita text-secondary" style="font-size:170%"></i> INVENTARIOS 
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('PRECIOS')">
-                        <div class="card-body p-6 text-secondary negrita">
-                            <i class="fal fa-book negrita text-secondary" style="font-size:170%"></i> PRECIOS 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-6">
-                    <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('POS')">
-                        <div class="card-body p-6 text-secondary negrita">
-                           <i class="fal fa-tag negrita text-secondary" style="font-size:170%"></i>PUNTO DE VENTA 
-                        </div>
-                    </div>
-                </div>
-                <div class="hidden card card-rounded shadow border-secondary hand" onclick="getMenu('CREDITOS')">
-                        <div class="card-body p-6 text-secondary negrita">
-                            <i class="fal fa-dollar-sign negrita text-secondary" style="font-size:170%"></i> CRÉDITOS 
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div>            
             `
         }
     }
 
 
-    root.innerHTML = view.body();
+    root.innerHTML = view.menu();
 
 };
 
@@ -125,6 +128,8 @@ function initView(){
     getView();
     addListeners();
 
+   
+
 };
 
 
@@ -132,6 +137,7 @@ function getMenu(opcion){
 
     switch (opcion) {
         case 'PEDIDOS':
+            GlobalCoddoc = 'PED01';
             classNavegar.lista_clientes();
             break;
         case 'CREDITOS':

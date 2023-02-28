@@ -1001,12 +1001,10 @@ router.post("/insertventa", async (req,res)=>{
                 '', '', 0, ${lat},${long},'${app}','${fecha_operacion}'
                 );`
                    
-                qrycorrelativo =`   UPDATE ME_TIPODOCUMENTOS 
-                                        SET CORRELATIVO=${nuevocorrelativo} 
-                                        WHERE CODSUCURSAL='${codsucursal}' AND CODDOC='${coddoc}';
-                                    UPDATE ME_USUARIOS 
-                                        SET CORRELATIVO=${nuevocorrelativo} 
-                                        WHERE CODSUCURSAL='${codsucursal}' AND CODDOC='${coddoc}';`
+                qrycorrelativo =`
+                    UPDATE TIPODOCUMENTOS 
+                        SET CORRELATIVO=${nuevocorrelativo} 
+                        WHERE EMP_NIT='${empnit}' AND CODDOC='${coddoc}';`
       
     execute.Query(res, qrycorrelativo + qry + qrydoc);
     

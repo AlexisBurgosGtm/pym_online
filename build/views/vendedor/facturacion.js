@@ -57,22 +57,7 @@ function getView(){
         <div class="row">
             
             <div class="hidden-md-down col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                <div id="panel-2" class="panel col-12">
-                    <div class="panel-hdr">
-                        <h2>Datos del Cliente</h2>
-                        <div class="panel-toolbar">
-                            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
-                            <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
-                        </div>
-                    </div>
-                    <div class="panel-container collapse">
-                        <div class="panel-content">
-                            <div class="">
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             
             <div class="hidden-md-down col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -81,8 +66,7 @@ function getView(){
                         <h2>Datos del Documento</h2>
                         <div class="panel-toolbar">
                             <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
-                            <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
-                            
+                          
                         </div>
                     </div>
                     <div class="panel-container collapse"> <!--show-->
@@ -424,7 +408,7 @@ function getView(){
         }
     }
 
-    //+ view.cajabusquedaproducto()  antes de gridtempventas
+    
     root.innerHTML = view.body(); 
 
 
@@ -496,9 +480,9 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
     //classTipoDocumentos.comboboxTipodoc('PED','cmbCoddoc');
     cmbCoddoc.value = GlobalCoddoc;
 
-    cmbCoddoc.addEventListener('change',async ()=>{
-       await classTipoDocumentos.fcnCorrelativoDocumento('PED',cmbCoddoc.value,'txtCorrelativo');
-    });
+    //cmbCoddoc.addEventListener('change',async ()=>{
+       //await classTipoDocumentos.fcnCorrelativoDocumento('PED',cmbCoddoc.value,'txtCorrelativo');
+    //});
 
     let cmbVendedor = document.getElementById('cmbVendedor');
 
@@ -518,13 +502,8 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
     
     await classTipoDocumentos.fcnCorrelativoDocumento('PED',cmbCoddoc.value,'txtCorrelativo');
     
-    //await fcnCargarTotal('txtTotalVenta','txtTotalVentaCobro');
-
     cmbVendedor.value = GlobalCodUsuario;
 
-  
-    // inicializa la calculadora de cantidad
-    //iniciarModalCantidad();
     addEventsModalCambioCantidad();
 
     //carga los datos del cliente
@@ -537,7 +516,6 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
     fcnIniciarModalCantidadProductos();
 
     document.getElementById('btnAgregarProd').addEventListener('click',()=>{
-        //$('#ModalBusqueda').modal('show');
         document.getElementById('tab-precios').click();
     });
 
@@ -937,9 +915,6 @@ async function fcnCambiarCantidad(id,cantidad,codprod, existencia,precio){
     $('#modalCambiarCantidadProducto').modal('show');
     
 };
-
-
-
 
 
 async function fcnNuevoPedido(){

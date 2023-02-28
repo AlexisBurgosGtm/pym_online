@@ -101,6 +101,8 @@ function addListeners(){
 
         almacenarCredenciales();
 
+       
+
         classNavegar.inicio_vendedor();
         return;
         

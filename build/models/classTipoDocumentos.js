@@ -32,7 +32,7 @@ let classTipoDocumentos = {
         
         let correlativo = document.getElementById(idContainerCorrelativo);
     
-        axios.get('/tipodocumentos/correlativodoc?empnit=' + GlobalEmpnit + '&tipo=' + tipodoc + '&coddoc=' + coddoc  + '&app=' + GlobalSistema)
+        axios.get('/tipodocumentos/correlativodoc?sucursal=' + GlobalCodSucursal + '&tipo=' + tipodoc + '&coddoc=' + coddoc  + '&app=' + GlobalSistema)
         .then((response) => {
             const data = response.data;        
             data.recordset.map((rows)=>{
@@ -75,8 +75,7 @@ let classTipoDocumentos = {
         return new Promise((resolve,reject)=>{
             let correlativo = '0';
             let data = {
-                empnit:GlobalEmpnit,
-                tipo:tipodoc,
+                sucursal:GlobalCodSucursal,
                 coddoc:coddoc
             }
 
