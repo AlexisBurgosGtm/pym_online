@@ -3,8 +3,8 @@ function getView(){
         body:()=>{
             return `
                 <div class="row">
-                    <div class="card bg-mostaza card-rounded shadow col-12">
-                        <div class="card-body">
+                    <div class="card bg-mostaza card-rounded shadow col-12 p-2">
+                        
                             <div class="row">
                                 <div class="col-6 text-left">
                                     <label class="text-white negrita h5" style="font-size:140%" id="lbTotalItems">0 items</label>
@@ -13,16 +13,17 @@ function getView(){
                                     <h1 class="text-white negrita" id="lbTotalVenta">Q 0.00</h1>
                                 </div>
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
+                <br>
                 <div class="col-12 p-0">
                     <div class="tab-content" id="myTabHomeContent">
                         <div class="tab-pane fade show active" id="pedido" role="tabpanel" aria-labelledby="dias-tab">
-                            ${view.pedido()}
+                            ${view.pedido() + view.modal_pedido_editar_cantidad()}
                         </div>
                         <div class="tab-pane fade" id="precios" role="tabpanel" aria-labelledby="clientes-tab">
-                            ${view.precios()}
+                          
                         </div>
 
                         <div class="tab-pane fade" id="documento" role="tabpanel" aria-labelledby="home-tab">
@@ -144,16 +145,73 @@ function getView(){
             </button>
             `
         },
-        precios:()=>{
+        modal_pedido_editar_cantidad:()=>{
             return `
+            <div class="modal fade" id="modal_cambiar_cantidad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <label class="modal-title text-mostaza h3" id="">Cambiar cantidad de producto</label>
+                        </div>
             
-            `
+                        <div class="modal-body shadow">
+                                <div class="">            
+                                    
+                                    <div class="form-group">
+                                        <label>Nueva cantidad:</label>
+                                        <input type="number" style="font-size:140%" class="form-control negrita text-mostaza border-mostaza shadow col-10" id="txtCantNuevaCant">
+                                    </div>   
+                                    
+                                    <div class="form-group">
+                                        <label>Precio:</label>
+                                        <input type="number" style="font-size:140%" class="form-control negrita text-mostaza border-mostaza shadow col-10" id="txtCantNuevoPrecio" disabled>
+                                    </div>                                                             
+                                        
+                                </div>
+                                
+                                <br>
+        
+                                <div class="row">
+                                    <div class="col-5">
+                                        <button class="btn btn-secondary btn-xl btn-circle hand shadow waves-effect waves-themed" data-dismiss="modal" id="">
+                                            <i class="fal fa-arrow-left"></i>
+                                        </button>                                
+                                    </div>
+        
+                                    <div class="col-1"></div>
+        
+                                    <div class="col-5">
+                                        <button class="btn btn-success btn-xl btn-circle hand shadow waves-effect waves-themed" id="btnCantGuardar">
+                                            <i class="fal fa-check mr-1"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    
+                                </div>
+                        
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>`
         },
         documento:()=>{
             return `
-            
+            <div class="row">
+                <div class="col-6">
+                    Datos del documento y forma de pago
+                </div>
+                <div class="col-6">
+                    Datos del cliente y total
+                </div>
+            </div>
+
             <button class="btn btn-secondary btn-xl btn-bottom-l btn-circle shadow hand" id="btnPosDocumentoAtras">
                 <i class="fal fa-arrow-left"></i>
+            </button>
+
+            <button class="btn btn-danger btn-xl btn-bottom-r btn-circle shadow hand" id="btnPosDocumentoGuardar">
+                <i class="fal fa-save"></i>
             </button>
 
             `
@@ -378,7 +436,6 @@ function get_tbl_pedido(){
 
     selectTempVentasPOS(GlobalCodSucursal)
     .then((data)=>{
-        console.log(data);
         let datos = data.map((rows)=>{
             varTotalItems += 1;
             varTotalVenta = varTotalVenta + Number(rows.TOTALPRECIO);
@@ -400,12 +457,12 @@ function get_tbl_pedido(){
                 </td>
                 <td class="negrita text-danger h4">${funciones.setMoneda(rows.TOTALPRECIO,'Q')}</td>
                 <td>
-                    <button class="btn btn-md btn-circle btn-info shadow hand">
+                    <button class="btn btn-md btn-circle btn-info shadow hand" onclick="edit_cantidad_pos('${rows.ID}','${rows.CANTIDAD}','${rows.COSTO}','${rows.PRECIO}')">
                         <i class="fal fa-edit"></i>
                     </button>
                 </td>
                 <td>
-                    <button class="btn btn-md btn-circle btn-danger shadow hand" >
+                    <button class="btn btn-md btn-circle btn-danger shadow hand" onclick="delete_item_pedido('${rows.ID}')">
                         <i class="fal fa-trash"></i>
                     </button>
                 </td>                            
@@ -424,8 +481,12 @@ function get_tbl_pedido(){
 };
 
 
-function edit_cantidad_pos(){
+function edit_cantidad_pos(id,cantidad,costo,precio){
 
+    document.getElementById('txtCantNuevaCant').value = cantidad;
+    document.getElementById('txtCantNuevoPrecio').value = precio;
+
+    $("#modal_cambiar_cantidad").modal('show');
 
 };
 

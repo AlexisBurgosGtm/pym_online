@@ -360,7 +360,7 @@ function selectTempVentasPOS(sucursal) {
     return new Promise(async(resolve,reject)=>{
         var response = await connection.select({
             from: "temp_pos",
-            order: { by: 'ID', type: 'asc' }
+            order: { by: 'ID', type: 'desc' }
         });
         let datos = JSON.stringify(response);
         datos = datos.replace('[','');
@@ -388,13 +388,15 @@ function insertTempVentasPOS(datos){
 };
 
 function deleteItemVentaPOS(id){
+    console.log('eliminar id: ' + id.toString())
     return new Promise(async(resolve,reject)=>{
         var rowsDeleted = await connection.remove({
             from: "temp_pos",
             where: {
-                ID: id
+                ID: Number(id)
             }
         });
+        console.log(rowsDeleted);
         if(rowsDeleted>0){resolve()}else{reject()}
     })            
 };
