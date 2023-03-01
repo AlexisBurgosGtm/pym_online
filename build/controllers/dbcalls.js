@@ -354,6 +354,54 @@ async function updateSaleCliente(codigo) {
 
 };
 
+// POS
+function selectTempVentasPOS(sucursal) {
+
+    return new Promise(async(resolve,reject)=>{
+        var response = await connection.select({
+            from: "temp_pos",
+            order: { by: 'ID', type: 'asc' }
+        });
+        let datos = JSON.stringify(response);
+        datos = datos.replace('[','');
+        datos = datos.replace(']','');
+        let result = '[' + datos + ']';
+        let data = JSON.parse(result);
+        resolve(data);
+    });
+};
+
+function insertTempVentasPOS(datos){
+    return new Promise((resolve,reject)=>{
+        connection.insert({
+            into: "temp_pos",
+            values: [datos], //you can insert multiple values at a time
+        })
+        .then(()=>{
+            resolve();
+        })
+        .catch(()=>{
+            reject();
+        })
+    }) 
+
+};
+
+function deleteItemVentaPOS(id){
+    return new Promise(async(resolve,reject)=>{
+        var rowsDeleted = await connection.remove({
+            from: "temp_pos",
+            where: {
+                ID: id
+            }
+        });
+        if(rowsDeleted>0){resolve()}else{reject()}
+    })            
+};
+
+// POS
+
+
 function insertTempVentas(datos){
     return new Promise((resolve,reject)=>{
         connection.insert({
@@ -381,6 +429,7 @@ function deleteItemVenta(id){
         if(rowsDeleted>0){resolve()}else{reject()}
     })            
 };
+
 
 function selectTempventas(usuario) {
 

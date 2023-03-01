@@ -1,4 +1,4 @@
-const DbName = "ventasoffline2";
+const DbName = "ventasoffline4";
 
 var tblDocumentos = {
     name: 'documentos',
@@ -97,6 +97,30 @@ var tblTempventas = {
     }
 };
 
+var tblTempventasPos = {
+    name: 'temp_pos',
+    columns: {
+        ID:{ primaryKey: true, autoIncrement: true },
+        CODSUCURSAL:{dataType: "string"},
+        EMPNIT:{dataType: "string"},
+        CODDOC:{dataType: "string"},
+        CODPROD:{dataType: "string"},
+        DESPROD:{dataType: "string"},
+        CODMEDIDA:{dataType: "string"},
+        EQUIVALE:{dataType: "number"},
+        CANTIDAD:{dataType: "number"},
+        TOTALUNIDADES:{dataType: "number"},
+        COSTO:{dataType: "number"},
+        PRECIO:{dataType: "number"},
+        TOTALCOSTO:{dataType: "number"},
+        TOTALPRECIO:{dataType: "number"},       
+        EXENTO:{dataType: "number"},
+        USUARIO:{dataType: "string"},
+        TIPOPRECIO:{dataType: "string"},
+        EXISTENCIA:{dataType: "number"}
+    }
+};
+
 var tblCredenciales = {
     name: 'credenciales',
     columns: {
@@ -137,7 +161,7 @@ var tempcenso = {
 
 var database = {
     name: DbName,
-    tables: [tblDocumentos,tblProductos,tblClientes,tblTempventas,tblCredenciales,tempcenso]
+    tables: [tblDocumentos,tblProductos,tblClientes,tblTempventas,tblTempventasPos,tblCredenciales,tempcenso]
 };
  
 // initiate jsstore connection

@@ -17,7 +17,7 @@ let routerUsuarios = require('./router/routerUsuarios');
 let routerCenso = require('./router/routerCenso');
 var routerFEL = require('./router/routerFEL');
 var routerConfig = require('./router/routerConfig');
-var routerPOS = require('./router/routerPOS');
+var router_POS = require('./router/router_POS');
 
 
 var http = require('http').Server(app);
@@ -46,7 +46,7 @@ router.use(function (req,res,next) {
         // Set to true if you need the website to include cookies in the requests sent
       res.setHeader('Access-Control-Allow-Credentials', true);
   */
-  //console.log("/" + req.toString());
+  console.log("/" + req.body);
   next();
 });
 
@@ -71,6 +71,9 @@ app.use('/censo', routerCenso);
 
 //Router para app VENTAS
 app.use('/ventas', routerVentas);
+
+// Router pos
+app.use('/pos', router_POS);
 
 //Router para app REPARTIDOR
 app.use('/repartidor', routerRepartidor);
@@ -99,8 +102,6 @@ app.use('/fel', routerFEL);
 // Router para configuraciones
 app.use('/config', routerConfig);
 
-// Router pos
-app.use('./pos', routerPOS)
 
 
 

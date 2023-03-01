@@ -1,3 +1,9 @@
+.card-deck{ 
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 2fr));
+  column-count: 3;
+}
+
 .img-auto {
 
   width: 40%;

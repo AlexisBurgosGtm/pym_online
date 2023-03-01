@@ -37,6 +37,8 @@ let GlobalTotalCostoDocumento = 0;
 let GlobalCodBodega = '01';
 let GlobalTipoCobro = 'TERMINAR';
 
+let GlobalSelectedCodCategoria = '';
+
 let GlobalSelectedCodven = 0;
 
 
