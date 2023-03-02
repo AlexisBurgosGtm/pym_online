@@ -71,9 +71,9 @@ function getView(){
                     <br>
                     <div class="row">
                         <div class="col-6">
-                            <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('INVENTARIOS')">
+                            <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('GASTOS')">
                                 <div class="card-body p-6 text-secondary negrita">
-                                <i class="fal fa-box negrita text-secondary" style="font-size:170%"></i> INVENTARIOS 
+                                <i class="fal fa-car negrita text-secondary" style="font-size:170%"></i> GASTOS 
                                 </div>
                             </div>
                         </div>
@@ -143,7 +143,7 @@ function getMenu(opcion){
         case 'CREDITOS':
             
             break;
-        case 'INVENTARIOS':
+        case 'GASTOS':
             
             break;
         case 'PRECIOS':

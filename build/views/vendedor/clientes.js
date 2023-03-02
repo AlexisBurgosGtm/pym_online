@@ -509,7 +509,7 @@ function Lmap(lat,long){
 
 };
 
-function getMenuCliente(codigo,nombre,direccion,telefono,lat,long,nit){
+function getMenuCliente(codigo,nombre,direccion,telefono,lat,long,nit,saldovencido){
     
     
     //map.remove()
@@ -524,7 +524,7 @@ function getMenuCliente(codigo,nombre,direccion,telefono,lat,long,nit){
     GlobalSelectedCodCliente = codigo;
     GlobalSelectedNomCliente = nombre;
     GlobalSelectedDirCliente = direccion;
-    
+    GlobalSelectedSaldoVencidoCliente = saldovencido;
 
     classNavegar.ventas(GlobalSelectedCodCliente,GlobalSelectedNomCliente,GlobalSelectedDirCliente,nit);
 

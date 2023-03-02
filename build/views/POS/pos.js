@@ -52,11 +52,19 @@ function getView(){
             return `
             <div class="row">
 
-                <div class="col-6">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                     <div class="card card-rounded shadow border-mostaza col-12 p-2">
                         <div class="card-body">
-                            <b class="text-mostaza">Productos agregados a la Factura</b>
-                            <br><br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <b class="text-mostaza">Productos agregados a la Factura</b>
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control border-mostaza negrita text-secondary" id="txtPosCodprod" placeholder="Buscar por código o descripción...">
+                                </div>
+                            </div>
+                            
+                            <hr class="solid text-mostaza">
                             
                                 <table class="table table-responsive col-12">
                                     <thead class="bg-mostaza text-white">
@@ -65,7 +73,6 @@ function getView(){
                                             <td>CANTIDAD</td>
                                             <td>SUBTOTAL</td>
                                             <td></td>
-                                            <td></td>
                                         </tr>
                                     </thead>
                                     <tbody id="tblPosPedido"></tbody>
@@ -73,7 +80,7 @@ function getView(){
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                     <div class="col-12 p-0">
                         <div class="tab-content" id="myTabHomeContent">
                             <div class="tab-pane fade show active" id="categorias" role="tabpanel" aria-labelledby="dias-tab">
@@ -198,11 +205,131 @@ function getView(){
         documento:()=>{
             return `
             <div class="row">
-                <div class="col-6">
-                    Datos del documento y forma de pago
+                
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    
+                    <div class="card card-rounded shadow border-mostaza p-2"  style="font-size:80%">
+                        <div class="card-body">
+                            
+                            <div class="row">
+                                <h5 class="negrita text-mostaza text-center">Datos del Documento</h5>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="negrita">Documento a Generar</label>
+                                        <select class="form-control form-control-md" style="font-size:90%" id="cmbPosCoddoc">
+                                        </select>
+                                        <input type="text" class="form-control" style="font-size:90%" disabled id="cmbPosCorrelativo">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="negrita">Fecha</label>
+                                        <input type="date" class="form-control" style="font-size:90%" id="cmbPosCoddocFecha">
+                                    </div>
+
+                                </div>
+
+                                <div class="col-6">
+                                    
+                                    <div class="form-group">
+                                        <label class="negrita">Forma de pago</label>
+                                        <select class="form-control" style="font-size:90%" id="cmbPosConcre">
+                                            <option value="CON">CONTADO</option>
+                                            <option value="CRE">CREDITO</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="negrita">Fecha de Pago</label>
+                                        <input type="date" style="font-size:90%" class="form-control" id="cmbPosConcreFecha">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            
+                           
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card card-rounded shadow border-mostaza p-2">
+                        <div class="card-body">
+                            <div class="table-responsive col-12">
+                                <h5 class="negrita text-mostaza">Formas de Pago</h5>
+                                <table class="table table-responsive text-f-80">
+                                    
+                                    <tbody>
+                                        <tr>
+                                            <td>EFECTIVO</td>
+                                            <td><input type="number" class="form-control text-f-90 border-mostaza"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>TARJETA</td>
+                                            <td><input type="number" class="form-control text-f-90 border-mostaza"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+
                 </div>
-                <div class="col-6">
-                    Datos del cliente y total
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <div class="card card-rounded shadow border-mostaza p-2"   style="font-size:80%">
+                        <div class="card-body">
+                        
+                            <div class="form-group">
+                                <label class="negrita text-f-90">NIT / DPI</label>
+                                <input type="text" class="form-control form-control-md border-mostaza negrita text-f-90">
+                            </div>
+
+                            
+                            <div class="form-group">
+                                <label class="negrita text-f-90">CLIENTE</label>
+                                <input type="text" class="form-control form-control-md border-mostaza negrita text-f-90">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="negrita text-f-90">DIRECCIÓN</label>
+                                <input type="text" class="form-control form-control-md border-mostaza negrita text-f-90">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="card card-rounded shadow border-mostaza p-2">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="negrita">Total a Pagar</label>
+                                        <h5 class="negrita text-danger" id="lbPosCobroTotalPagar">Q 0.00</h5>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="negrita">Total Pagado</label>
+                                        <h5 class="negrita text-info" id="lbPosCobroTotalPagado">Q 0.00</h5>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <br><br>
+                                    <button style="font-size:140%" class="btn form-control btn-danger btn-lg shadow hand" id="btnPosDocumentoGuardar">
+                                        <i class="fal fa-save"></i> Cobrar
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -210,9 +337,7 @@ function getView(){
                 <i class="fal fa-arrow-left"></i>
             </button>
 
-            <button class="btn btn-danger btn-xl btn-bottom-r btn-circle shadow hand" id="btnPosDocumentoGuardar">
-                <i class="fal fa-save"></i>
-            </button>
+           
 
             `
         }
@@ -243,6 +368,17 @@ function addListeners(){
 
 function listener_vista_pedido(){
 
+    let txtPosCodprod = document.getElementById('txtPosCodprod');
+    txtPosCodprod.addEventListener('keyup',(e)=>{
+        
+        if (e.code === 'Enter') {
+            funciones.Aviso('Busqueda de código')
+        };
+        if (e.keyCode === 13 && !e.shiftKey) {
+            funciones.Aviso('Busqueda de código');
+        };
+
+    });
     
     document.getElementById('btnPosAtras').addEventListener('click',()=>{
         classNavegar.inicio_vendedor();
@@ -256,6 +392,10 @@ function listener_vista_pedido(){
 
 function listener_vista_cobro(){
     
+    document.getElementById('cmbPosCoddocFecha').value = funciones.getFecha();
+    document.getElementById('cmbPosConcreFecha').value = funciones.getFecha();
+    
+
     document.getElementById('btnPosCobro').addEventListener('click',()=>{
         document.getElementById('tab-documento').click();
     });
@@ -452,15 +592,16 @@ function get_tbl_pedido(){
                     </div>
                 </td>
                 <td>
-                    ${rows.CANTIDAD}
+                    <button class="btn btn-md btn-circle btn-outline-danger shadow hand" onclick="disminuir_cantidad('${rows.ID}','${rows.CANTIDAD}','${rows.COSTO}','${rows.PRECIO}')">
+                        -
+                    </button> 
+                    <b class="text-info" style="font-size:140%">${rows.CANTIDAD}</b>
+                     <button class="btn btn-md btn-circle btn-outline-success shadow hand" onclick="aumentar_cantidad('${rows.ID}','${rows.CANTIDAD}','${rows.COSTO}','${rows.PRECIO}')">
+                        +
+                    </button>
                     <br><small>${rows.CODMEDIDA} (eq: ${rows.EQUIVALE})</small>
                 </td>
                 <td class="negrita text-danger h4">${funciones.setMoneda(rows.TOTALPRECIO,'Q')}</td>
-                <td>
-                    <button class="btn btn-md btn-circle btn-info shadow hand" onclick="edit_cantidad_pos('${rows.ID}','${rows.CANTIDAD}','${rows.COSTO}','${rows.PRECIO}')">
-                        <i class="fal fa-edit"></i>
-                    </button>
-                </td>
                 <td>
                     <button class="btn btn-md btn-circle btn-danger shadow hand" onclick="delete_item_pedido('${rows.ID}')">
                         <i class="fal fa-trash"></i>
@@ -473,6 +614,7 @@ function get_tbl_pedido(){
         GlobalTotalDocumento = varTotalVenta;
         document.getElementById('lbTotalItems').innerText = varTotalItems.toString() + ' items';
         document.getElementById('lbTotalVenta').innerText = funciones.setMoneda(varTotalVenta,'Q');
+        document.getElementById('lbPosCobroTotalPagar').innerText = funciones.setMoneda(varTotalVenta,'Q');
     })
     .catch((error)=>{
         container.innerHTML = 'No hay datos...';
@@ -480,6 +622,33 @@ function get_tbl_pedido(){
 
 };
 
+function aumentar_cantidad(id,cantidad,costo,precio){
+
+        let nuevacantidad = (Number(cantidad)+1);
+
+        selectDataRowVentaPOS(id,nuevacantidad,precio)
+        .then(()=>{
+            get_tbl_pedido();
+        })
+        .catch(()=>{
+            funciones.AvisoError('No se logró Eliminar la lista de productos agregados');
+        })
+
+};
+
+function disminuir_cantidad(id,cantidad,costo,precio){
+    let nuevacantidad = (Number(cantidad)-1);
+
+    if(nuevacantidad==0){return;}
+
+    selectDataRowVentaPOS(id,nuevacantidad,precio)
+    .then(()=>{
+        get_tbl_pedido();
+    })
+    .catch(()=>{
+        funciones.AvisoError('No se logró Eliminar la lista de productos agregados');
+    })
+};
 
 function edit_cantidad_pos(id,cantidad,costo,precio){
 

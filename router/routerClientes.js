@@ -216,8 +216,8 @@ router.post("/listaajenosvendedor2", async(req,res)=>{
 
     const {app,sucursal,filtro,codven}  = req.body;
 
-    let qry = '';
-    qry = `SELECT TOP 50 Clientes.NITCLIE AS CODIGO, Clientes.NITFACTURA AS NIT, 
+    let qryx = '';
+    qryx = `SELECT TOP 50 Clientes.NITCLIE AS CODIGO, Clientes.NITFACTURA AS NIT, 
     Clientes.NOMCLIE, Clientes.DIRCLIE, Municipios.DESMUNI, Clientes.TELCLIE AS TELEFONO, ISNULL(Clientes.LATITUD, 0) AS LAT, 
     ISNULL(Clientes.LONGITUD, 0) AS LONG, ISNULL(Clientes.FECHAINGRESO,'2020-04-15') AS LASTSALE,
     Clientes.FAXCLIE AS TIPONEGOCIO , '' AS STVISITA, 'SN' AS REFERENCIA, 'OTROS' AS VISITA, Clientes.NOMFAC AS NEGOCIO
@@ -231,6 +231,29 @@ router.post("/listaajenosvendedor2", async(req,res)=>{
             AND (Clientes.NITCLIE= '${filtro}') 
         ORDER BY Clientes.FECHAINGRESO,Clientes.NOMCLIE`
     
+
+    let qry = `
+    SELECT  TOP (50) Clientes.NITCLIE AS CODIGO, Clientes.NITFACTURA AS NIT, Clientes.NOMCLIE, Clientes.DIRCLIE, Municipios.DESMUNI, Clientes.TELCLIE AS TELEFONO, ISNULL(Clientes.LATITUD, 0) AS LAT, 
+                         ISNULL(Clientes.LONGITUD, 0) AS LONG, ISNULL(Clientes.FECHAINGRESO, '2020-04-15') AS LASTSALE, Clientes.FAXCLIE AS TIPONEGOCIO, '' AS STVISITA, 'SN' AS REFERENCIA, 'OTROS' AS VISITA, 
+                         Clientes.NOMFAC AS NEGOCIO, 
+                         ClasificacionCliente.SALDO, 
+                         ClasificacionCliente.[NO VENCIDO] AS NO_VENCIDO, 
+                         ClasificacionCliente.[DE 1 A 30] AS DE1A30, 
+                         ClasificacionCliente.[DE 31 A 45] AS DE31A45, 
+                         ClasificacionCliente.[DE 46 A 60] AS DE46A60, 
+                         ClasificacionCliente.[DE 61 A MAS] AS DE61AMAS,
+                (ClasificacionCliente.SALDO-ClasificacionCliente.[NO VENCIDO]) AS SALDO_VENCIDO
+    FROM  Clientes LEFT OUTER JOIN
+                         ClasificacionCliente ON Clientes.NITCLIE = ClasificacionCliente.NITCLIE AND Clientes.EMP_NIT = ClasificacionCliente.EMP_NIT LEFT OUTER JOIN
+                         Municipios ON Clientes.EMP_NIT = Municipios.EMP_NIT AND Clientes.CODMUNI = Municipios.CODMUNI
+            WHERE (Clientes.EMP_NIT = '${sucursal}') 
+            AND (CONCAT(Clientes.NOMFAC,'-',Clientes.NOMCLIE) LIKE '%${filtro}%') 
+            AND (Clientes.CODCLIE=0) 
+            OR
+            (Clientes.EMP_NIT = '${sucursal}') 
+            AND (Clientes.NITCLIE= '${filtro}') 
+        ORDER BY Clientes.FECHAINGRESO,Clientes.NOMCLIE
+    `
     execute.Query(res,qry);
 
 })
