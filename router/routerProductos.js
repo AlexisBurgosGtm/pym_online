@@ -15,9 +15,12 @@ router.post('/lista_precios',async(req,res)=>{
     FROM Productos LEFT OUTER JOIN
     Precios ON Productos.CODPROD = Precios.CODPROD AND Productos.EMP_NIT = Precios.EMP_NIT AND Productos.EMP_NIT = Precios.EMP_NIT
     WHERE 
-        (Productos.EMP_NIT = '${sucursal}') AND (Productos.DESPROD like '%${filtro}%')
+        (Productos.EMP_NIT = '${sucursal}') AND (Productos.DESPROD like '%${filtro}%') AND (Precios.CODMEDIDA IS NOT NULL)
     OR
-        (Productos.EMP_NIT = '${sucursal}') AND (Productos.CODPROD='${filtro}')`;
+        (Productos.EMP_NIT = '${sucursal}') AND (Productos.CODPROD='${filtro}') AND (Precios.CODMEDIDA IS NOT NULL)`;
+
+    //let qry = ``;
+
 
     execute.Query(res,qry);
     

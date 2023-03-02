@@ -1,4 +1,4 @@
-let versionapp = 'Versión 2.2023';
+let versionapp = 'Versión 3.2023';
 
 let root = document.getElementById('root');
 let rootMenu = document.getElementById('rootMenu');
@@ -34,6 +34,7 @@ let GlobalSelectedFecha;
 let GlobalCoddoc = 'PED01';
 let GlobalTotalDocumento = 0;
 let GlobalTotalCostoDocumento = 0;
+let GlobalTotalPagado = 0;
 let GlobalCodBodega = '01';
 let GlobalTipoCobro = 'TERMINAR';
 let GlobalSelectedSaldoVencidoCliente = 0;
@@ -87,22 +88,6 @@ let GlobalUrl = document.location.origin.toString();
 let nowhatsapp = '50257255092';
 
 
-let FEL = {
-    CodigoEstablecimiento:"1",
-    NITEmisor:"",
-    NombreComercial:"GRANJA AVICOLA SANTA FE",
-    NombreEmisor:"GRANJA AVICOLA SANTA FE, S.A.",
-    Direccion:"CIUDAD",
-    CodigoPostal:"06012",
-    Municipio:"SANTA CRUZ NARANJO",
-    Departamento:"SANTA ROSA",
-    ACCESO_REQ_NOMBRE:"GRANJAASF",
-    ACCESO_REQ_CLAVE:"AAAAFFDD",
-    ACCESO_FIRMA_USUARIO:"GRAN",
-    ACCESO_FIRMA_CLAVE:"654f",
-    URL_REPORT_INFILE: "https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=",
-    CONFIG_FEL_HABILITADO: 'SI'
-};
 
 function showWaitForm(){
     $('#modalWait').modal('show');

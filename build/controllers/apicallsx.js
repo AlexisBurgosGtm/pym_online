@@ -325,9 +325,9 @@ let apigen = {
             data.map((rows)=>{                    
                         strdata = strdata + `
                     <tr class='card border-secondary hand card-rounded' onclick="getMenuCliente('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}','${rows.SALDO_VENCIDO}');">
-                        <td><b>${rows.NEGOCIO} - ${rows.NOMCLIE}</b>
+                        <td><b>${rows.NEGOCIO} - ${funciones.limpiarTexto(rows.NOMCLIE)}</b>
                             <br>
-                            <small>${rows.DIRCLIE}, ${rows.DESMUNI}<b></b></small>
+                            <small>${funciones.limpiarTexto(rows.DIRCLIE)}, ${rows.DESMUNI}<b></b></small>
                             <br>
                             <div class="row">
                                 <div class="col-6">
@@ -340,10 +340,10 @@ let apigen = {
                             <br>
                             <div class="row">
                                 <div class="col-6">
-                                    <small>Saldo Total: ${funciones.setMoneda(rows.SALDO,'Q')}</small>    
+                                    <small>Saldo Total: ${funciones.setMoneda(rows.SALDO||0,'Q')}</small>    
                                 </div>
                                 <div class="col-6">
-                                    <small class="text-danger negrita">Saldo Vencido: ${funciones.setMoneda(rows.SALDO_VENCIDO,'Q')}</small>    
+                                    <small class="text-danger negrita">Saldo Vencido: ${funciones.setMoneda(rows.SALDO_VENCIDO||0,'Q')}</small>    
                                 </div>
                             </div>
                             

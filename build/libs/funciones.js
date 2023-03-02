@@ -615,6 +615,62 @@ let funciones = {
       container.innerHTML = 'Contacts API not supported.'
     }
     },
+    get_data_nit: (nit)=>{
+
+      return new Promise((resolve, reject) => {
+                            
+        let alias = FEL.ACCESO_REQ_NOMBRE;
+        let llave = FEL.ACCESO_REQ_CLAVE;
+        
+        let url = `/datosnit?nit=${nit}&fel_alias=${alias}&fel_llave=${llave}`;
+        
+        axios.get(url)
+        .then((response) => {
+            let json = response.data;
+            json = json.replace(","," ");
+            json = json.replace(",,"," ");
+            json = json.replace(","," ");
+            console.log(response.data);
+
+            resolve(json);
+        }, (error) => {
+            console.log(error);
+            reject();
+        });
+  
+
+
+      });
+
+    },
+    get_data_dpi: (dpi)=>{
+
+      return new Promise((resolve, reject) => {
+                            
+        let alias = FEL.ACCESO_REQ_NOMBRE;
+        let llave = FEL.ACCESO_REQ_CLAVE;
+
+        let url = `/datosdpi?dpi=${dpi}&fel_alias=${alias}&fel_llave=${llave}`;
+        
+        axios.get(url)
+        .then((response) => {
+            let json = response.data;
+            json = json.replace(","," ");
+            json = json.replace(",,"," ");
+            json = json.replace(","," ");
+            console.log(response.data);
+
+            resolve(json);
+        }, (error) => {
+            console.log(error);
+            reject();
+        });
+  
+
+
+      });
+
+    },
     instalationHandlers: (idBtnInstall)=>{
       //INSTALACION APP
       let btnInstalarApp = document.getElementById(idBtnInstall);

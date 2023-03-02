@@ -264,11 +264,11 @@ function getView(){
                                     <tbody>
                                         <tr>
                                             <td>EFECTIVO</td>
-                                            <td><input type="number" class="form-control text-f-90 border-mostaza"></td>
+                                            <td><input type="number" class="form-control text-f-90 border-mostaza" id="txtPosCobroTPEfectivo"></td>
                                         </tr>
                                         <tr>
                                             <td>TARJETA</td>
-                                            <td><input type="number" class="form-control text-f-90 border-mostaza"></td>
+                                            <td><input type="number" class="form-control text-f-90 border-mostaza"id="txtPosCobroTPTarjeta"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -286,18 +286,18 @@ function getView(){
                         
                             <div class="form-group">
                                 <label class="negrita text-f-90">NIT / DPI</label>
-                                <input type="text" class="form-control form-control-md border-mostaza negrita text-f-90">
+                                <input type="text" class="form-control form-control-md border-mostaza negrita text-f-90" id="txtPosCobroNit">
                             </div>
 
                             
                             <div class="form-group">
                                 <label class="negrita text-f-90">CLIENTE</label>
-                                <input type="text" class="form-control form-control-md border-mostaza negrita text-f-90">
+                                <input type="text" class="form-control form-control-md border-mostaza negrita text-f-90" id="txtPosCobroNombre">
                             </div>
                             
                             <div class="form-group">
                                 <label class="negrita text-f-90">DIRECCIÓN</label>
-                                <input type="text" class="form-control form-control-md border-mostaza negrita text-f-90">
+                                <input type="text" class="form-control form-control-md border-mostaza negrita text-f-90" id="txtPosCobroDireccion">
                             </div>
 
                         </div>
@@ -364,6 +364,12 @@ function addListeners(){
     funciones.slideAnimationTabs();
 
 
+    let btnPosDocumentoGuardar = document.getElementById('btnPosDocumentoGuardar');
+    btnPosDocumentoGuardar.addEventListener('click',()=>{
+        let vuelto = (Number(GlobalTotalDocumento) - Number(GlobalTotalPagado));
+
+
+    });
 };
 
 function listener_vista_pedido(){
@@ -394,7 +400,7 @@ function listener_vista_cobro(){
     
     document.getElementById('cmbPosCoddocFecha').value = funciones.getFecha();
     document.getElementById('cmbPosConcreFecha').value = funciones.getFecha();
-    
+    document.getElementById('txtPosCobroDireccion').value = "CIUDAD";
 
     document.getElementById('btnPosCobro').addEventListener('click',()=>{
         document.getElementById('tab-documento').click();
@@ -404,6 +410,58 @@ function listener_vista_cobro(){
         document.getElementById('tab-pedido').click();
     });
 
+    document.getElementById('txtPosCobroNit').addEventListener('keyup',(e)=>{
+        
+        document.getElementById('txtPosCobroNit').value = document.getElementById('txtPosCobroNit').value.toUpperCase();
+        document.getElementById('txtPosCobroNit').value = document.getElementById('txtPosCobroNit').value.replace('-','').replace(" ","");
+
+        if(document.getElementById('txtPosCobroNit').value.length.toString()=='13'){
+            if (e.code === 'Enter') {
+                funciones.get_data_dpi(document.getElementById('txtPosCobroNit').value)
+                .then((json)=>{
+                    document.getElementById('txtPosCobroNombre').value = json;
+                })
+            };
+            if (e.keyCode === 13 && !e.shiftKey) {
+                funciones.get_data_dpi(document.getElementById('txtPosCobroNit').value)
+                .then((json)=>{
+                    document.getElementById('txtPosCobroNombre').value = json;
+                })
+            };
+        }else{
+            if (e.code === 'Enter') {
+                funciones.get_data_nit(document.getElementById('txtPosCobroNit').value)
+                .then((json)=>{
+                    document.getElementById('txtPosCobroNombre').value = json;
+                })
+            };
+            if (e.keyCode === 13 && !e.shiftKey) {
+                funciones.get_data_nit(document.getElementById('txtPosCobroNit').value)
+                .then((json)=>{
+                    document.getElementById('txtPosCobroNombre').value = json;
+                })
+            };
+        }
+     
+
+    });
+
+
+
+    /// forma de pago
+    let txtPosCobroTPEfectivo = document.getElementById('txtPosCobroTPEfectivo');
+    let txtPosCobroTPTarjeta = document.getElementById('txtPosCobroTPTarjeta');
+
+    txtPosCobroTPEfectivo.addEventListener('input',()=>{
+        let totalpagado = Number(txtPosCobroTPEfectivo.value||0) + Number(txtPosCobroTPTarjeta.value||0);
+        GlobalTotalPagado = totalpagado;
+        document.getElementById('lbPosCobroTotalPagado').innerText = funciones.setMoneda(totalpagado,'Q')
+    });
+    txtPosCobroTPTarjeta.addEventListener('input',()=>{
+        let totalpagado = Number(txtPosCobroTPEfectivo.value||0) + Number(txtPosCobroTPTarjeta.value||0);
+        GlobalTotalPagado = totalpagado;
+        document.getElementById('lbPosCobroTotalPagado').innerText = funciones.setMoneda(totalpagado,'Q')
+    });
 
 
 };
@@ -491,7 +549,7 @@ function get_tbl_productos_clasificacion(codigo){
                 str += `
                 <tr class="hand border-secondary border-top-0 border-left-0 border-right-0" onclick="get_data_producto_categoria('${r.CODPROD}','${r.DESPROD}','${r.CODMEDIDA}','${r.EQUIVALE}','${r.COSTO}','${r.PRECIO}')">
                     <td>
-                        ${r.DESPROD}
+                        ${funciones.limpiarTexto(r.DESPROD)}
                         <br>
                         <small>Código: <b class="text-danger">${r.CODPROD}</b></small>
                         <br>
@@ -502,7 +560,7 @@ function get_tbl_productos_clasificacion(codigo){
                         <br>
                         <small>Equivale: <b class="text-danger">${r.EQUIVALE}</b></small>
                     </td>
-                    <td><b class="h4">${funciones.setMoneda(r.PRECIO,'Q')}</b></td>
+                    <td><b class="h4">${funciones.setMoneda(r.PRECIO ||0,'Q')}</b></td>
                 </tr>
                 `
             })

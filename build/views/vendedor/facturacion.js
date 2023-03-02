@@ -646,7 +646,7 @@ function fcnBusquedaProducto(idFiltro,idTablaResultado,idTipoPrecio){
 
                 str += `<tr id="${rows.CODPROD}" onclick="getDataMedidaProducto('${rows.CODPROD}','${funciones.quitarCaracteres(rows.DESPROD,'"'," plg",true)}','${rows.CODMEDIDA}',1,${rows.EQUIVALE},${rows.EQUIVALE},${rows.COSTO},${pre},${totalexento},${Number(rows.EXISTENCIA)});" class="border-bottom">
                 <td >
-                    ${funciones.quitarCaracteres(rows.DESPROD,'"'," pulg",true)}
+                    ${funciones.limpiarTexto(rows.DESPROD)}
                     <br>
                     <small class="text-danger"><b>${rows.CODPROD}</b></small>
                     <br>
@@ -752,7 +752,7 @@ async function fcnAgregarProductoVenta(codprod,desprod,codmedida,cantidad,equiva
                         
                         fcnCargarGridTempVentas('tblGridTempVentas');
                         
-                        document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>Agregar`;
+                        document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>`;
                         document.getElementById('btnAgregarProducto').disabled = false;
                         let txbusqueda = document.getElementById('txtBusqueda');
                         txbusqueda.value = '';
@@ -760,14 +760,14 @@ async function fcnAgregarProductoVenta(codprod,desprod,codmedida,cantidad,equiva
                   })
                   .catch(
                       ()=>{
-                        document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>Agregar`;
+                        document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>`;
                         document.getElementById('btnAgregarProducto').disabled = false;
                         funciones.AvisoError('No se pudo agregar este producto a la venta actual');
                       }
                   )
         
         } catch (error) {
-            document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>Agregar`;
+            document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>`;
             document.getElementById('btnAgregarProducto').disabled = false;
         }
    

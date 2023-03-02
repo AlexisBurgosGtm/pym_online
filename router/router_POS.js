@@ -27,7 +27,7 @@ router.post("/productos_categoria", async(req,res)=>{
         FROM Productos LEFT OUTER JOIN
                              Marcas ON Productos.CODMARCA = Marcas.CODMARCA AND Productos.EMP_NIT = Marcas.EMP_NIT LEFT OUTER JOIN
                              Precios ON Productos.CODPROD = Precios.CODPROD AND Productos.EMP_NIT = Precios.EMP_NIT
-        WHERE (Productos.EMP_NIT = '${sucursal}') AND (Productos.CODCLAUNO = '${codigo}')`
+        WHERE (Productos.EMP_NIT = '${sucursal}') AND (Productos.CODCLAUNO = '${codigo}') AND (Precios.CODMEDIDA IS NOT NULL)`
     
     
   
