@@ -61,9 +61,9 @@ function getView(){
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('CREDITOS')">
+                            <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('PRESUPUESTO')">
                                 <div class="card-body p-6 text-secondary negrita">
-                                    <i class="fal fa-dollar-sign negrita text-secondary" style="font-size:170%"></i> CRÉDITOS 
+                                    <i class="fal fa-chart-pie negrita text-secondary" style="font-size:170%"></i> PRESUPUESTO 
                                 </div>
                             </div>
                         </div>
@@ -94,7 +94,8 @@ function getView(){
                                 </div>
                             </div>
                         </div>
-                        <div class="hidden card card-rounded shadow border-secondary hand" onclick="getMenu('CREDITOS')">
+                        <div class="col-6">
+                            <div class="card card-rounded shadow border-secondary hand" onclick="getMenu('CREDITOS')">
                                 <div class="card-body p-6 text-secondary negrita">
                                     <i class="fal fa-dollar-sign negrita text-secondary" style="font-size:170%"></i> CRÉDITOS 
                                 </div>
@@ -145,6 +146,9 @@ function getMenu(opcion){
             break;
         case 'GASTOS':
             
+            break;
+        case 'PRESUPUESTO':
+            classNavegar.presupuesto_vendedor();
             break;
         case 'PRECIOS':
             classNavegar.lista_precios();

@@ -74,6 +74,14 @@ let classNavegar = {
             window.history.pushState({"page":1}, "precios", '/clientes');
         })
     },
+    presupuesto_vendedor :async ()=>{
+        funciones.loadScript('../views/vendedor/presupuesto.js','root')
+        .then(async()=>{
+            GlobalSelectedForm='PRESUPUESTO';
+            initView();
+            window.history.pushState({"page":1}, "presupuesto", '/presupuesto');
+        })
+    },
     inicio_censo :async ()=>{
         funciones.loadScript('../views/vendedor/censo.js','root')
         .then(async()=>{
