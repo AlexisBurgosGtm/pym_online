@@ -202,9 +202,9 @@ function getView(){
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Forma de Pago:</label>
-                                    <select id="cmbEntregaConcre" class="form-control">
-                                        <option value="CREDITO">CREDITO</option>
-                                        <option value="CONTADO">CONTADO</option>
+                                    <select id="cmbConcre" class="form-control">
+                                        <option value="CRE">CREDITO</option>
+                                        <option value="CON">CONTADO</option>
                                     </select>
                                 </div>
                             </div>
@@ -608,15 +608,13 @@ function fcnBusquedaProducto(idFiltro,idTablaResultado,idTipoPrecio){
     data_usuario.map((r)=>{
         if(r.TIPOOPERACION.toString()=="BODEGAS"){
             strCodBodegas = strCodBodegas + `'${r.NOMOPERACION.toString()}',`;
-            console.log(r.NOMOPERACION)
         }
     });
     strCodBodegas = strCodBodegas.substring(0, strCodBodegas.length - 1);
-    console.log(strCodBodegas);
 
     let str = ""; 
 
-    apigen.precios_lista(GlobalCodSucursal,filtro,strCodBodegas,GlobalSelectedTipoClie,GlobalSelectedTipoClie,CONFIG_EMPRESA.TIPOCOSTO.toString())
+    apigen.precios_lista(GlobalCodSucursal,filtro,strCodBodegas,GlobalSelectedTipoClie,CONFIG_EMPRESA.TIPOCOSTO.toString())
     .then((response) => {
         const data = response;
         
@@ -629,25 +627,9 @@ function fcnBusquedaProducto(idFiltro,idTablaResultado,idTipoPrecio){
                 let totalexento = 0;
                 if (rows.EXENTO==1){totalexento=Number(rows.PRECIO)}
                 
-                switch (cmbTipoPrecio.value) {
-                    case 'P':
-                        pre = Number(rows.PRECIO)
-                        break;
-                    case 'C':
-                        pre = Number(rows.PRECIOC)
-                        break;
-                    case 'B':
-                        pre = Number(rows.PRECIOB)
-                        break;
-                    case 'A':
-                        pre = Number(rows.PRECIOA)
-                        break;
-                    case 'K':
-                        pre = Number(0.01)
-                        break;
-                }
-
-                str += `<tr id="${rows.CODPROD}" onclick="getDataMedidaProducto('${rows.CODPROD}','${funciones.quitarCaracteres(rows.DESPROD,'"'," plg",true)}','${rows.CODMEDIDA}',1,${rows.EQUIVALE},${rows.EQUIVALE},${rows.COSTO},${pre},${totalexento},${Number(rows.EXISTENCIA)});" class="border-bottom">
+                pre = Number(rows.PRECIO)
+                
+                str += `<tr id="${rows.CODPROD}" onclick="getDataMedidaProducto('${rows.CODPROD}','${funciones.limpiarTexto(rows.DESPROD)}','${rows.CODMEDIDA}',1,${rows.EQUIVALE},${rows.EQUIVALE},${rows.COSTO},${pre},${totalexento},${Number(rows.EXISTENCIA)},'${rows.CODBODEGA}','${rows.NOLOTE}');" class="border-bottom">
                 <td >
                     ${funciones.limpiarTexto(rows.DESPROD)}
                     <br>
@@ -682,8 +664,7 @@ function fcnBusquedaProducto(idFiltro,idTablaResultado,idTipoPrecio){
 };
 
 //gestiona la apertura de la cantidad
-function getDataMedidaProducto(codprod,desprod,codmedida,cantidad,equivale,totalunidades,costo,precio,exento,existencia){
-    console.log('existencia: ' + existencia);
+function getDataMedidaProducto(codprod,desprod,codmedida,cantidad,equivale,totalunidades,costo,precio,exento,existencia,codbodega,nolote){
 
     //if(parseInt(existencia)>0){
         GlobalSelectedCodprod = codprod;
@@ -693,6 +674,9 @@ function getDataMedidaProducto(codprod,desprod,codmedida,cantidad,equivale,total
         GlobalSelectedCosto = parseFloat(costo);
         GlobalSelectedPrecio = parseFloat(precio);
         
+        GlobalSelectedCodBodega = codbodega.toString();
+        GlobalSelectedNoLote = nolote.toString();
+
         GlobalSelectedExento = parseInt(exento);
         GlobalSelectedExistencia = parseInt(existencia);
     
@@ -728,7 +712,7 @@ async function fcnAgregarProductoVenta(codprod,desprod,codmedida,cantidad,equiva
     let cmbTipoPrecio = document.getElementById('cmbTipoPrecio');
         let totalcosto = Number(costo) * Number(cantidad);
         let totalprecio = Number(precio) * Number(cantidad);
-        console.log('intenta agregar la fila')
+        
         let coddoc = document.getElementById('cmbCoddoc').value;
         try {        
                 var data = {
@@ -747,10 +731,12 @@ async function fcnAgregarProductoVenta(codprod,desprod,codmedida,cantidad,equiva
                     TOTALPRECIO:totalprecio,
                     EXENTO:exento,
                     USUARIO:GlobalUsuario,
-                    TIPOPRECIO:cmbTipoPrecio.value,
-                    EXISTENCIA:GlobalSelectedExistencia
+                    TIPOPRECIO:GlobalSelectedTipoClie,
+                    EXISTENCIA:GlobalSelectedExistencia,
+                    CODBODEGA:GlobalSelectedCodBodega.toString(),
+                    NOLOTE:GlobalSelectedNoLote.toString()
                 };
-
+                ALEXIS
                 insertTempVentas(data)
                 .then(()=>{                    
       
@@ -880,7 +866,6 @@ async function fcnCargarGridTempVentas(idContenedor){
            containerTotalItems.innerHTML = `${varTotalItems} items`;
         })
     } catch (error) {
-        console.log('NO SE LOGRO CARGAR LA LISTA ' + error);
         tabla.innerHTML = 'No se logró cargar la lista...';
         containerTotalVenta.innerText = '0';
         btnCobrarTotal.disabled = true; //innerText =  'Terminar';
@@ -925,13 +910,9 @@ async function fcnCambiarCantidad(id,cantidad,codprod, existencia,precio){
     
 };
 
-
 async function fcnNuevoPedido(){
-    
-    //classNavegar.inicio('VENDEDOR');
-    classNavegar.inicio_vendedor();
+    classNavegar.lista_clientes();
 };
-
 
 
 //FINALIZAR PEDIDO
@@ -947,7 +928,7 @@ async function fcnFinalizarPedido(){
     let obs = funciones.limpiarTexto(document.getElementById('txtEntregaObs').value); 
     let direntrega = "SN"; //document.getElementById('txtEntregaDireccion').value; //CAMPO MATSOLI
     let codbodega = GlobalCodBodega;
-    let cmbTipoEntrega = document.getElementById('cmbEntregaConcre').value; //campo TRANSPORTE
+    //let cmbTipoEntrega = document.getElementById('cmbEntregaConcre').value; //campo TRANSPORTE
     let txtFecha = new Date(document.getElementById('txtFecha').value);
     let anio = txtFecha.getFullYear();
     let mes = txtFecha.getUTCMonth()+1;
@@ -967,88 +948,53 @@ async function fcnFinalizarPedido(){
     let nitdocumento = document.getElementById('txtNitDocumento').value;
     let latdoc = document.getElementById('lbDocLat').innerText;
     let longdoc = document.getElementById('lbDocLong').innerText;
-
+    let concre = document.getElementById('cmbConcre').value;
 
     document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1 fa-spin"></i>';
     document.getElementById('btnFinalizarPedido').disabled = true;
 
     gettempDocproductos(GlobalUsuario)
     .then((response)=>{
-        let docproductos_ped = response;  
-
-        //guarda el pedido localmente
-        var datospedido = {
-                CODSUCURSAL:GlobalCodSucursal,
-                EMPNIT: GlobalEmpnit,
-                CODDOC:coddoc,
-                ANIO:anio,
-                MES:mes,
-                DIA:dia,
-                FECHA:fecha,
-                FECHAENTREGA:fechaentrega,
-                FORMAENTREGA:cmbTipoEntrega,
-                CODCLIE: codcliente,
-                NOMCLIE:ClienteNombre,
-                TOTALCOSTO:GlobalTotalCostoDocumento,
-                TOTALPRECIO:GlobalTotalDocumento,
-                NITCLIE:nit,
-                DIRCLIE:dirclie,
-                OBS:obs,
-                DIRENTREGA:direntrega,
-                USUARIO:GlobalUsuario,
-                CODVEN:Number(cmbVendedor.value),
-                LAT:latdoc,
-                LONG:longdoc,
-                FECHA_OPERACION:funciones.getFecha(),
-                JSONPRODUCTOS:JSON.stringify(docproductos_ped)
-        };
-
         //UNA VEZ OBTENIDO EL DETALLE, PROCEDE A GUARDARSE O ENVIARSE
 
         //OBTIENE EL CORRELATIVO DEL DOCUMENTO
-        classTipoDocumentos.getCorrelativoDocumento('PED',GlobalCoddoc)
+        classTipoDocumentos.getCorrelativoDocumento('PED',coddoc)
         .then((correlativo)=>{
             correlativoDoc = correlativo;             
           
             funciones.Confirmacion('¿Está seguro que desea finalizar esta venta?')
             .then((value)=>{
                 if(value==true){
-
-                    //setLog(`<label class="text-danger">Creando el pedido a enviar...</label>`,'rootWait');
-                    //$('#modalWait').modal('show');
-                                                
-                    //ENVIANDOLO ONLINE
-                        
-                        //setLog(`<label class="text-info">Pedido creado, enviado pedido...</label>`,'rootWait');
-                                    
+         
                         axios.post('/ventas/insertventa', {
-                            jsondocproductos:JSON.stringify(response),
-                            codsucursal:GlobalCodSucursal,
-                            empnit: GlobalEmpnit,
-                            coddoc:coddoc,
-                            correl: correlativoDoc,
-                            anio:anio,
-                            mes:mes,
-                            dia:dia,
-                            fecha:fecha,
-                            fechaentrega:fechaentrega,
-                            formaentrega:cmbTipoEntrega,
-                            codbodega:codbodega,
-                            codcliente: codcliente,
-                            nomclie:ClienteNombre,
-                            totalcosto:GlobalTotalCostoDocumento,
-                            totalprecio:GlobalTotalDocumento,
-                            nitclie:nit,
-                            dirclie:dirclie,
-                            obs:obs,
-                            direntrega:direntrega,
-                            usuario:GlobalUsuario,
-                            codven:cmbVendedor.value,
-                            lat:latdoc,
-                            long:longdoc,
-                            hora:hora,
-                            nitdoc:nitdocumento,
-                            fecha_operacion:funciones.getFecha()
+                                jsondocproductos:JSON.stringify(response),
+                                sucursal:GlobalCodSucursal,
+                                empnit: GlobalEmpnit,
+                                coddoc:coddoc,
+                                correl: correlativoDoc,
+                                anio:anio,
+                                mes:mes,
+                                dia:dia,
+                                fecha:fecha,
+                                fechaentrega:fechaentrega,
+                                formaentrega:concre,
+                                codbodega:codbodega,
+                                codcliente: codcliente,
+                                nomclie:ClienteNombre,
+                                totalcosto:GlobalTotalCostoDocumento,
+                                totalprecio:GlobalTotalDocumento,
+                                nitclie:nit,
+                                dirclie:dirclie,
+                                obs:obs,
+                                direntrega:direntrega,
+                                usuario:GlobalUsuario,
+                                codven:cmbVendedor.value,
+                                lat:latdoc,
+                                long:longdoc,
+                                hora:hora,
+                                nitdoc:nitdocumento,
+                                fecha_operacion:funciones.getFecha(),
+                                concre:concre
                         })
                         .then(async(response) => {
                             if(response.data=='error'){
@@ -1061,7 +1007,6 @@ async function fcnFinalizarPedido(){
                                 const data = response.data;
                                 if (data.rowsAffected[0]==0){
                                     
-                                    //setLog(`<label class="text-info">No se logró Enviar este pedido, se intentará guardarlo en el teléfono</label>`,'rootWait');
                                     document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Enviar Pedido';
                                     document.getElementById('btnFinalizarPedido').disabled = false;
     
@@ -1069,7 +1014,6 @@ async function fcnFinalizarPedido(){
     
                                 }else{
     
-                                    //setLog(`<label class="text-info">Pedido enviado, generando factura FEL...</label>`,'rootWait');
                                     funciones.Aviso('Pedido enviado exitosamente!!')
                                     classEmpleados.updateMyLocation();            
                                     //actualiza la última venta del cliente
@@ -1078,37 +1022,29 @@ async function fcnFinalizarPedido(){
                                     deleteTempVenta(GlobalUsuario);
                                          
                                     //prepara todo para un nuevo pedido
-                                    fcnNuevoPedido();
-       
+                                    fcnNuevoPedido();       
                                 }
                             }
-                            
                         }, (error) => {
-
                                 document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Enviar Pedido';
                                 document.getElementById('btnFinalizarPedido').disabled = false;
                                 funciones.AvisoError('No se pudo guardar este pedido')
                         });        
                 }else{
                     document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Enviar Pedido';
-                    document.getElementById('btnFinalizarPedido').disabled = false;
-                                
+                    document.getElementById('btnFinalizarPedido').disabled = false;   
                 }
             })
-
         })
         .catch(()=>{
             document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Enviar Pedido';
             document.getElementById('btnFinalizarPedido').disabled = false;
             funciones.AvisoError('No se pudo enviar el pedido');                 
         })
-
     })
     .catch((error)=>{
-        //hideWaitForm();
         document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Enviar Pedido';
         document.getElementById('btnFinalizarPedido').disabled = false;
         funciones.AvisoError('No pude crear la tabla de productos del pedido ' + error);
-    })
-  
+    })  
 };

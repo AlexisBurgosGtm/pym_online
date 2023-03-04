@@ -509,12 +509,8 @@ function Lmap(lat,long){
 
 };
 
-function getMenuCliente(codigo,nombre,direccion,telefono,lat,long,nit,saldovencido){
+function getMenuCliente(codigo,nombre,direccion,telefono,lat,long,nit,saldovencido,tipoclie){
     
-    
-    //map.remove()
-    //map = Lmap(lat,long,nombre,telefono);
-
     document.getElementById('lbNombreCliente').innerHTML = nombre;
     document.getElementById('txtCodClie').value = codigo;
     document.getElementById('txtNitClie').value = nit;
@@ -525,6 +521,7 @@ function getMenuCliente(codigo,nombre,direccion,telefono,lat,long,nit,saldovenci
     GlobalSelectedNomCliente = nombre;
     GlobalSelectedDirCliente = direccion;
     GlobalSelectedSaldoVencidoCliente = Number(saldovencido) || 0;
+    GlobalSelectedTipoClie = tipoclie;
 
     classNavegar.ventas(GlobalSelectedCodCliente,GlobalSelectedNomCliente,GlobalSelectedDirCliente,nit);
 

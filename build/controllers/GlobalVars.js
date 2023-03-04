@@ -38,7 +38,7 @@ let GlobalTotalPagado = 0;
 let GlobalCodBodega = '01';
 let GlobalTipoCobro = 'TERMINAR';
 let GlobalSelectedSaldoVencidoCliente = 0;
-let GlobalSelectedTipoClie = 'P';
+let GlobalSelectedTipoClie = '';
 
 
 let GlobalSelectedCodCategoria = '';
@@ -61,6 +61,8 @@ let GlobalSelectedExento = 0;
 let GlobalSelectedCosto = 0;
 let GlobalSelectedPrecio = 0;
 let GlobalSelectedExistencia = 0;
+let GlobalSelectedCodBodega = '';
+let GlobalSelectedNoLote = '';
 // global vars para cantidad producto
 
 let GlobalSelectedCodEmbarque ='';

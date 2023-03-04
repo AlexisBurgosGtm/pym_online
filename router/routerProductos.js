@@ -41,7 +41,7 @@ router.post('/lista_precios',async(req,res)=>{
                 CODMEDIDA,
                 EQUIVALE,
                 ${strCosto} AS COSTO,
-                CODLISTA,
+                LISTA,
                 RANGO,RANGOINICIAL,RANGOFINAL,
                 SALDOFINAL AS EXISTENCIA,
                 NOLOTE,
@@ -74,9 +74,6 @@ router.post('/lista_precios',async(req,res)=>{
             ULTIMO IS NOT NULL AND
             SALDOFINAL IS NOT NULL
     `;
-
-    console.log(qry);
-
 
     execute.Query(res,qry);
     
