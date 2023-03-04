@@ -5,6 +5,126 @@ const router = express.Router();
 
 router.post('/lista_precios',async(req,res)=>{
     
+    const {sucursal,filtro,codbodega,tipoclie,config_tipocosto} = req.body;
+
+    let strPrecio = '';
+    switch (tipoclie.toString()) {
+        case 'P':
+            strPrecio = 'PRECIO';
+            break;
+        case 'M':
+            strPrecio = 'MAYORISTA';
+            break;
+        case 'E':
+            strPrecio = 'ESPECIAL';
+            break;
+        case 'L':
+            strPrecio = 'LPRECIO';
+            break;
+    };
+
+    let strCosto = '';
+    switch (config_tipocosto.toString()) {
+        case 'PROMEDIO':
+            strCosto = 'PROMEDIO';
+            break;
+        case 'ULTIMO':
+            strCosto = 'ULTIMO';
+            break;
+    };
+
+    let qry = `
+        SELECT EMP_NIT, 
+                CODPROD,
+                DESPROD,
+                ${strPrecio} AS PRECIO,
+                CODMEDIDA,
+                EQUIVALE,
+                ${strCosto} AS COSTO,
+                CODLISTA,
+                RANGO,RANGOINICIAL,RANGOFINAL,
+                SALDOFINAL AS EXISTENCIA,
+                NOLOTE,
+                CODBODEGA 
+        FROM WEB_PRECIOS
+        WHERE 
+            EMP_NIT='${sucursal}' AND 
+            CODBODEGA IN(${codbodega}) AND
+            DESPROD LIKE '%${filtro}%' AND
+            PRECIO IS NOT NULL AND 
+            MAYORISTA IS NOT NULL AND
+            ESPECIAL IS NOT NULL AND
+            CODMEDIDA IS NOT NULL AND
+            EQUIVALE IS NOT NULL AND
+            COSTO IS NOT NULL AND
+            PROMEDIO IS NOT NULL AND
+            ULTIMO IS NOT NULL AND
+            SALDOFINAL IS NOT NULL
+        OR
+            EMP_NIT='${sucursal}' AND 
+            CODBODEGA IN(${codbodega}) AND
+            CODPROD='${filtro}' AND
+            PRECIO IS NOT NULL AND 
+            MAYORISTA IS NOT NULL AND
+            ESPECIAL IS NOT NULL AND
+            CODMEDIDA IS NOT NULL AND
+            EQUIVALE IS NOT NULL AND
+            COSTO IS NOT NULL AND
+            PROMEDIO IS NOT NULL AND
+            ULTIMO IS NOT NULL AND
+            SALDOFINAL IS NOT NULL
+    `;
+
+    console.log(qry);
+
+
+    execute.Query(res,qry);
+    
+});
+
+router.post('/back_lista_precios',async(req,res)=>{
+    
+    const {sucursal,filtro,codbodega} = req.body;
+
+    let qry = `
+    SELECT TOP (50) 
+            Productos.EMP_NIT, 
+            Existencia.CODBODEGA, 
+            Productos.CODPROD, 
+            Productos.DESPROD, 
+            Precios.CODMEDIDA, 
+            Precios.EQUIVALE, 
+            Precios.COSTO, 
+            Precios.PRECIO, 
+            Precios.MAYORISTA AS PRECIOA, 
+            Precios.ESCALA AS PRECIOB, 
+            Precios.OFERTA AS PRECIOC, 
+            '' AS LASTUPDATE, 
+            Existencia.NOLOTE,
+            Existencia.SALDO AS EXISTENCIA
+            FROM            Productos LEFT OUTER JOIN
+    Existencia ON Productos.CODPROD = Existencia.CODPROD AND Productos.EMP_NIT = Existencia.EMP_NIT LEFT OUTER JOIN
+    Precios ON Productos.CODPROD = Precios.CODPROD AND Productos.EMP_NIT = Precios.EMP_NIT AND Productos.EMP_NIT = Precios.EMP_NIT    
+    WHERE 
+        (Productos.EMP_NIT = '${sucursal}') AND 
+        (Productos.DESPROD like '%${filtro}%') AND 
+        (Precios.CODMEDIDA IS NOT NULL) AND
+        ()
+    OR
+        (Productos.EMP_NIT = '${sucursal}') AND 
+        (Productos.CODPROD='${filtro}') AND 
+        (Precios.CODMEDIDA IS NOT NULL)`;
+
+    //let qry = ``;
+
+
+    execute.Query(res,qry);
+    
+});
+
+
+router.post('/BACKUP_lista_precios',async(req,res)=>{
+    
     const {sucursal,filtro} = req.body;
 
     let qry = `SELECT TOP 50 Productos.CODPROD, Productos.DESPROD, Precios.CODMEDIDA, 
@@ -25,7 +145,6 @@ router.post('/lista_precios',async(req,res)=>{
     execute.Query(res,qry);
     
 });
-
 
 
 

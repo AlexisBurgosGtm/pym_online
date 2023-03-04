@@ -180,13 +180,13 @@ function getView(){
                         <div class="tab-pane fade active show" id="panelAjenos" role="tabpanel">
                                                                                  
                             <div class="form-group p-2">
-                                <i class="fal fa-user" style="font-size:140%"></i>
-                                <label class="negrita">Buscar clientes por Nombre:</label>
+                                <i class="fal fa-user text-mostaza" style="font-size:140%"></i>
+                                <label class="negrita text-mostaza">Buscar clientes por Nombre:</label>
                                 <div class="input-group">               
                             
-                                    <input type="text" class="form-control border-secondary negrita text-danger" id="txtClientesAjenosBuscar" placeholder="Escriba para buscar cliente...">    
+                                    <input type="text" class="form-control border-mostaza negrita text-danger" id="txtClientesAjenosBuscar" placeholder="Escriba para buscar cliente...">    
                                     <div class="input-group-append">
-                                        <button class="btn btn-md btn-icon btn-secondary btn-round" id="btnClientesAjenosBuscar">
+                                        <button class="btn btn-md btn-icon btn-mostaza btn-round" id="btnClientesAjenosBuscar">
                                             <i class="fal fa-search"></i>
                                         </button>    
                                     </div>
@@ -524,7 +524,7 @@ function getMenuCliente(codigo,nombre,direccion,telefono,lat,long,nit,saldovenci
     GlobalSelectedCodCliente = codigo;
     GlobalSelectedNomCliente = nombre;
     GlobalSelectedDirCliente = direccion;
-    GlobalSelectedSaldoVencidoCliente = saldovencido;
+    GlobalSelectedSaldoVencidoCliente = Number(saldovencido) || 0;
 
     classNavegar.ventas(GlobalSelectedCodCliente,GlobalSelectedNomCliente,GlobalSelectedDirCliente,nit);
 
@@ -593,25 +593,6 @@ async function getHistorialCliente(codigo,nit,nombre){
 
 async function setRecordatorioVisita(codigo, nit, nombre, direccion){
     
-    await funciones.hablar(`¿Quieres establecer el recordatorio de visita a ${nombre}`);
-    
-    let recordatorio = 'Retomar visita';
-
-    funciones.Confirmacion(`¿Quieres establecer el recordatorio de visita a ${nombre}`)
-    .then((value)=>{
-        if (value==true){
-
-            apigen.clientesSetReminder(codigo,nit,nombre,direccion,recordatorio,0,0,funciones.getFecha())
-            .then(()=>{
-                funciones.Aviso('Recordatorio establecido exitosamente');
-            })
-            .catch(()=>{
-                funciones.AvisoError('No se pudo establecer el recordatorio');
-            })
-            //funciones.setReminder(`Visitar a ${nombre}, ubicado en ${direccion}`, 60);
-            
-        }
-    })
     
 };
 

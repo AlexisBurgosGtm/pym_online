@@ -2,6 +2,30 @@ const execute = require('./connection');
 const express = require('express');
 const router = express.Router();
 
+
+router.post("/login",async(req,res)=>{
+
+    const {sucursal,u,p} = req.body;
+
+    
+    let qry = `
+        SELECT Usuarios.NOMBRE, 
+            Usuarios.CLAVE,  
+            UsuariosConf.EMP_NIT, 
+            UsuariosConf.TIPOOPERACION, 
+            UsuariosConf.NOMOPERACION, 
+            Tipodocumentos.TIPODOC,
+            Usuarios.WEB AS TIPO
+        FROM  Tipodocumentos RIGHT OUTER JOIN
+            UsuariosConf ON Tipodocumentos.CODDOC = UsuariosConf.NOMOPERACION AND Tipodocumentos.EMP_NIT = UsuariosConf.EMP_NIT RIGHT OUTER JOIN
+            Usuarios ON UsuariosConf.CLAVE = Usuarios.NOMBRE
+        WHERE (Usuarios.WEB<>'') AND (Usuarios.NOMBRE='${u}') AND (Usuarios.CLAVE='${p}')
+        ORDER BY Usuarios.NOMBRE, UsuariosConf.EMP_NIT, UsuariosConf.TIPOOPERACION
+    `
+    
+    execute.Query(res,qry);
+});
+
 router.get("/login",async(req,res)=>{
 
     const {codsucursal,user,pass} = req.query;

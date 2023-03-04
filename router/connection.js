@@ -12,7 +12,7 @@ const sql = require('mssql');
 let execute = {
 	Query : (res,sqlqry)=>{	
 		
-		console.log('ejecutando consulta... ' + sqlqry);		
+		//console.log('ejecutando consulta... ' + sqlqry);		
 
 		try {
 		  const pool1 = new sql.ConnectionPool(config, err => {

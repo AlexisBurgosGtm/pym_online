@@ -10,7 +10,7 @@ function getView(){
 
             <div class="col-md-4 col-sm-12 col-lg-4 col-lx-4">
    
-                <div class="card shadow p-2 card-rounded border-secondary">
+                <div class="card shadow p-2 card-rounded border-mostaza">
 
                     <div class="card-header text-center bg-white">
                         <div class="row">
@@ -26,14 +26,14 @@ function getView(){
                     <div class="card-body">
                         <form class="" id="frmLogin" autocomplete="off">
                             <div class="form-group">
-                                <label class="negrita text-secondary">Empresa:</label>
+                                <label class="negrita text-mostaza">Empresa:</label>
                                 <select class="negrita form-control" id="cmbSucursal">
                                     
                                 </select>
                                 
                             </div>
                             <div class="form-group">
-                                <label class="negrita text-secondary">Usuario:</label>
+                                <label class="negrita text-mostaza">Usuario:</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
@@ -46,7 +46,7 @@ function getView(){
                             </div>
 
                             <div class="form-group">
-                                <label class="negrita text-secondary">Clave:</label>
+                                <label class="negrita text-mostaza">Clave:</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
@@ -60,7 +60,7 @@ function getView(){
 
                             <br>
                             <div class="form-group" align="right">
-                                <button class="btn btn-secondary btn-xl shadow btn-circle"  type="submit" id="btnIniciar">
+                                <button class="btn btn-mostaza btn-xl shadow btn-circle"  type="submit" id="btnIniciar">
                                     <i class="fal fa-unlock"></i>  
                                 </button>
                             </div>
@@ -99,22 +99,17 @@ function addListeners(){
     frmLogin.addEventListener('submit',(e)=>{
         e.preventDefault();
 
-        almacenarCredenciales();
-
-       
-
-        classNavegar.inicio_vendedor();
-        return;
-        
         btnIniciar.innerHTML = '<i class="fal fa-unlock fa-spin"></i>';
         btnIniciar.disabled = true;
-        apigen.empleadosLogin(frmLogin.cmbSucursal.value,frmLogin.txtUser.value.trim(),frmLogin.txtPass.value.trim())
-        .then(()=>{
-            //document.body.requestFullscreen();
-            //por lo visto se deshabilitan las scroll bars en fullscreen
-            selectDateDownload();
+
+
+        apigen.login(frmLogin.cmbSucursal.value,frmLogin.txtUser.value.trim(),frmLogin.txtPass.value.trim())
+        .then((data)=>{
+            data_usuario = data;
+            classNavegar.inicio_vendedor();
         })
         .catch(()=>{
+            funciones.AvisoError('Usuario incorrecto');
             btnIniciar.disabled = false;
             btnIniciar.innerHTML = '<i class="fal fa-unlock"></i>'
         });

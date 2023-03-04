@@ -9,7 +9,7 @@ function getView(){
                         </label>
                     </div>
                     <div class="col-6 text-right">
-                        <h1 id="txtTotalVenta" class="text-danger negrita"></h1>
+                        <h1 id="txtTotalVenta" class="text-mostaza negrita"></h1>
                     </div>
                 </div>
 
@@ -38,7 +38,7 @@ function getView(){
                                 <i class="fal fa-list"></i></a>Pedido
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link negrita text-danger" id="tab-precios" data-toggle="tab" href="#precios" role="tab" aria-controls="home" aria-selected="true">
+                            <a class="nav-link negrita text-info" id="tab-precios" data-toggle="tab" href="#precios" role="tab" aria-controls="home" aria-selected="true">
                                 <i class="fal fa-comments"></i></a>Precios
                         </li> 
                         <li class="nav-item">
@@ -69,43 +69,20 @@ function getView(){
                           
                         </div>
                     </div>
-                    <div class="panel-container collapse"> <!--show-->
-                        <div class="panel-content">
-                            <div class="row">
-                                <div class="col-6">
-                                    <input type="text" class="form-control input-sm" id="cmbCoddoc">
-                                    
-                                </div>
-                                <div class="col-6">
-                                    <input type="text" class="form-control" value="0" id="txtCorrelativo" readonly="true">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    
-                                </div>
-                                <div class="col-6">
-                                    Vendedor:
-                                    <input type="text" class="form-control" id="cmbVendedor">
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
 
         </div>
             `
-            //<select class="form-control input-sm" id="cmbCoddoc"></select>
-            //<select class="form-control" id="cmbVendedor"></select>
         },
         gridTempVenta :()=>{
             return `
         <div class="row">
            
                 <div class="panel-hdr col-12">
-                    <h2 id="txtTotalItems" class="negrita">0 items</h2>
+                            <h2 id="txtTotalItems" class="negrita">0 items</h2>
+                            <h2 class="text-mostaza">Detalle del Pedido</h2>
                 </div>
                         
                     <div class="table-responsive col-12">
@@ -124,7 +101,7 @@ function getView(){
                             <i class="fal fa-arrow-left"></i>
                         </button>
                     
-                        <button class="btn btn-danger btn-xl btn-circle btn-bottom-mr shadow hand shadow" id="btnCobrar">
+                        <button class="btn btn-mostaza btn-xl btn-circle btn-bottom-mr shadow hand shadow" id="btnCobrar">
                             <i class="fal fa-dollar-sign"></i> 
                         </button>
                         
@@ -140,7 +117,7 @@ function getView(){
             
                     <div class="card card-rounded shadow">
                         <div class="card-header">
-                            <label class="modal-title text-danger h3" id="">Búsqueda de Productos</label>
+                            <label class="modal-title text-mostaza h3" id="">Búsqueda de Productos</label>
                             
                         </div>
 
@@ -148,9 +125,9 @@ function getView(){
                             <div class="row">
                                 <div class="input-group">
                                     
-                                    <input id="txtBusqueda" type="text" ref="txtBusqueda" class="form-control col-12 border-secondary text-danger negrita" placeholder="Buscar productos..." aria-label="" aria-describedby="button-addon4" />
+                                    <input id="txtBusqueda" type="text" ref="txtBusqueda" class="form-control col-12 border-mostazas text-danger negrita" placeholder="Buscar productos..." aria-label="" aria-describedby="button-addon4" />
                                     <div class="input-group-prepend">
-                                        <button class="btn btn-secondary btn-rounded waves-effect waves-themed shadow" type="button" id="btnBuscarProducto">
+                                        <button class="btn btn-mostaza btn-rounded waves-effect waves-themed shadow" type="button" id="btnBuscarProducto">
                                             <i class="fal fa-search"></i>
                                         </button>
                                     </div>
@@ -166,10 +143,11 @@ function getView(){
                                 </select>
 
                             <table class="table table-responsive table-striped table-hover">
-                                <thead class="bg-secondary text-white">
+                                <thead class="bg-mostaza text-white">
                                     <tr>
                                         <td>Producto</td>
-                                        <td>Precio</td>                         
+                                        <td>Precio</td>
+                                        <td>No. Lote</td>                         
                                     </tr>
                                 </thead>
                                 <tbody id="tblResultadoBusqueda">
@@ -184,7 +162,7 @@ function getView(){
                
 
                 
-                    <button class="btn btn-bottom-ml btn-secondary btn-xl btn-circle" id="btnPreciosAtras">
+                    <button class="btn btn-bottom-l btn-secondary btn-xl btn-circle" id="btnPreciosAtras">
                         <i class="fal fa-arrow-left"></i>
                     </button>
                
@@ -199,7 +177,21 @@ function getView(){
 
                 <div class="card-body">
                     <div class="">                            
-                       
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Documento a Generar</label>
+                                <div class="input-group">
+                                    <select class="form-control input-sm" id="cmbCoddoc">
+                                    </select>
+                                    <input type="text" class="form-control" value="0" id="txtCorrelativo" readonly="true">
+                                    <select class="form-control" id="cmbVendedor">
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                        <br>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -218,7 +210,7 @@ function getView(){
                             </div>
                         </div>
                         
-                        <br>
+                       
                         
                         <div class="form-group">  
                             <div class="row">
@@ -233,6 +225,7 @@ function getView(){
                             </div>
                         </div>
                         
+
                         <div class="form-group">
                             <label>Nombre:</label>
                             <input class="form-control" id="txtNombre" placeholder="Nombre de cliente.." disabled="true" >
@@ -255,7 +248,7 @@ function getView(){
                             <div class="col-1"></div>
                 
                             <div class="col-5">
-                                <button class="btn btn-info btn-lg btn-pills btn-block waves-effect waves-themed" id="btnFinalizarPedido">
+                                <button class="btn btn-mostaza btn-lg btn-pills btn-block waves-effect waves-themed" id="btnFinalizarPedido">
                                     <i class="fal fa-dollar-sign mr-1"></i>Enviar Pedido
                                 </button>
                             </div>
@@ -359,7 +352,7 @@ function getView(){
                     <div class="modal-dialog modal-md" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <label class="modal-title text-info h3" id="">Cambiar cantidad de producto</label>
+                                <label class="modal-title text-mostaza h3" id="">Cambiar cantidad de producto</label>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true"><i class="fal fa-times"></i></span>
                                 </button>
@@ -370,11 +363,11 @@ function getView(){
                                         
                                         <div class="form-group">
                                             <label>Nueva cantidad:</label>
-                                            <input type="number" class="form-control border-info shadow col-10" id="txtCantNuevaCant">
+                                            <input type="number" class="form-control border-mostaza negrita shadow col-10" id="txtCantNuevaCant">
                                         </div>   
                                         <div class="form-group">
                                             <label>Nuevo Precio:</label>
-                                            <input type="number" class="form-control border-info shadow col-10" id="txtCantNuevoPrecio">
+                                            <input type="number" class="form-control border-mostaza negrita shadow col-10" id="txtCantNuevoPrecio" disabled="true">
                                         </div>                                                             
                                             
                                     </div>
@@ -383,17 +376,16 @@ function getView(){
             
                                     <div class="row">
                                         <div class="col-5">
-                                            <button class="btn btn-secondary btn-lg  btn-pills btn-block waves-effect waves-themed" data-dismiss="modal" id="">
-                                                <i class="fal fa-times mr-1"></i>
-                                                Cancelar
+                                            <button class="btn btn-secondary btn-xl btn-circle shadow hand" data-dismiss="modal" id="">
+                                                <i class="fal fa-arrow-left"></i>
                                             </button>                                
                                         </div>
             
                                         <div class="col-1"></div>
             
                                         <div class="col-5">
-                                            <button class="btn btn-success btn-lg btn-pills btn-block waves-effect waves-themed" id="btnCantGuardar">
-                                                <i class="fal fa-check mr-1"></i>Aceptar
+                                            <button class="btn btn-success btn-xl btn-circle hand shadow waves-effect waves-themed" id="btnCantGuardar">
+                                                <i class="fal fa-check mr-1"></i>
                                             </button>
                                         </div>
                                         
@@ -478,11 +470,13 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
 
     let cmbCoddoc = document.getElementById('cmbCoddoc');
     //classTipoDocumentos.comboboxTipodoc('PED','cmbCoddoc');
-    cmbCoddoc.value = GlobalCoddoc;
+    //cmbCoddoc.value = GlobalCoddoc;
+    let str = data_usuario.map((r)=>{if(r.TIPODOC=='PED'){if(r.EMP_NIT.toString()==GlobalCodSucursal.toString()){return `<option value='${r.NOMOPERACION}'>${r.NOMOPERACION}</option>`}}}).join('\n')
+    cmbCoddoc.innerHTML = str;
 
-    //cmbCoddoc.addEventListener('change',async ()=>{
-       //await classTipoDocumentos.fcnCorrelativoDocumento('PED',cmbCoddoc.value,'txtCorrelativo');
-    //});
+    cmbCoddoc.addEventListener('change',async ()=>{
+       await classTipoDocumentos.fcnCorrelativoDocumento('PED',cmbCoddoc.value,'txtCorrelativo');
+    });
 
     let cmbVendedor = document.getElementById('cmbVendedor');
 
@@ -502,7 +496,7 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
     
     await classTipoDocumentos.fcnCorrelativoDocumento('PED',cmbCoddoc.value,'txtCorrelativo');
     
-    cmbVendedor.value = GlobalCodUsuario;
+    cmbVendedor.innerHTML = data_usuario.map((r)=>{if(r.TIPOOPERACION=='VENDEDORES'){if(r.EMP_NIT.toString()==GlobalCodSucursal.toString()){return `<option value='${r.NOMOPERACION}'>${r.NOMBRE}</option>`}}}).join('\n');
 
     addEventsModalCambioCantidad();
 
@@ -610,16 +604,26 @@ function fcnBusquedaProducto(idFiltro,idTablaResultado,idTipoPrecio){
     let tabla = document.getElementById(idTablaResultado);
     tabla.innerHTML = GlobalLoader;
 
+    let strCodBodegas = '';
+    data_usuario.map((r)=>{
+        if(r.TIPOOPERACION.toString()=="BODEGAS"){
+            strCodBodegas = strCodBodegas + `'${r.NOMOPERACION.toString()}',`;
+            console.log(r.NOMOPERACION)
+        }
+    });
+    strCodBodegas = strCodBodegas.substring(0, strCodBodegas.length - 1);
+    console.log(strCodBodegas);
 
     let str = ""; 
 
-    apigen.precios_lista(GlobalCodSucursal,filtro)
+    apigen.precios_lista(GlobalCodSucursal,filtro,strCodBodegas,GlobalSelectedTipoClie,GlobalSelectedTipoClie,CONFIG_EMPRESA.TIPOCOSTO.toString())
     .then((response) => {
         const data = response;
-        //con esta variable determino el tipo de precio a usar            
-        let pre = 0;
+        
+        
+        let pre = 0;    
+        data.map((rows)=>{
             
-            data.map((rows)=>{
                 let exist = Number(rows.EXISTENCIA)/Number(rows.EQUIVALE); let strC = '';
                 if(Number(rows.EXISTENCIA<=0)){strC='bg-danger text-white'}else{strC='bg-success text-white'};
                 let totalexento = 0;
@@ -641,7 +645,6 @@ function fcnBusquedaProducto(idFiltro,idTablaResultado,idTipoPrecio){
                     case 'K':
                         pre = Number(0.01)
                         break;
-     
                 }
 
                 str += `<tr id="${rows.CODPROD}" onclick="getDataMedidaProducto('${rows.CODPROD}','${funciones.quitarCaracteres(rows.DESPROD,'"'," plg",true)}','${rows.CODMEDIDA}',1,${rows.EQUIVALE},${rows.EQUIVALE},${rows.COSTO},${pre},${totalexento},${Number(rows.EXISTENCIA)});" class="border-bottom">
@@ -657,9 +660,14 @@ function fcnBusquedaProducto(idFiltro,idTablaResultado,idTipoPrecio){
                     <br>
                     <small class="${strC}">E:${funciones.setMoneda(exist,'')}</small>
                 </td>
+                <td>
+                    ${rows.NOLOTE}
+                    <br>
+                    <small class="negrita">Bodega: ${rows.CODBODEGA}</small>
+                </td>
             </tr>`
-            })
-            tabla.innerHTML= str;
+        })
+        tabla.innerHTML= str;
         
     }, (error) => {
         tabla.innerHTML ='<label>No se pudo cargar la lista...</label>';
@@ -705,7 +713,6 @@ function getDataMedidaProducto(codprod,desprod,codmedida,cantidad,equivale,total
 };
 
 //GRID TEMP VENTAS
-
 // agrega el producto a temp_ventas
 async function fcnAgregarProductoVenta(codprod,desprod,codmedida,cantidad,equivale,totalunidades,costo,precio,exento){
    
@@ -823,26 +830,28 @@ async function fcnCargarGridTempVentas(idContenedor){
                 varTotalVenta = varTotalVenta + Number(rows.TOTALPRECIO);
                 varTotalCosto = varTotalCosto + Number(rows.TOTALCOSTO);
                 return `
-                <tr id="${rows.ID.toString()}" class="border-secondary card card-rounded bg-white" ondblclick="funciones.hablar('${rows.DESPROD}')">
+                <tr id="${rows.ID.toString()}" class="border-mostaza card card-rounded bg-white" ondblclick="funciones.hablar('${rows.DESPROD}')">
                     <td class="text-left">
                         ${rows.DESPROD}
                         <br>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-7">
                                 <small class="negrita"><b>${rows.CODPROD} (Equivale: ${rows.EQUIVALE})</b></small>
                                 <br>
                                 <small>
-                                    Cantidad:<b class="text-info h4" id=${idcant}>${rows.CANTIDAD}</b>  ${rows.CODMEDIDA}  -  Precio Un:<b class="text-info h4">${funciones.setMoneda(rows.PRECIO,'Q')}</b>
+                                    Cantidad:<b class="text-info h4" id=${idcant}>${rows.CANTIDAD}</b>  ${rows.CODMEDIDA}  -  Precio Un:<b class="text-info h5">${funciones.setMoneda(rows.PRECIO,'Q')}</b>
                                 </small>
                             </div>
-                            <div class="col-6">
+                            <div class="col-5">
                                 <div class="text-right" id=${'S'+idcant}>
-                                    <b class="text-danger" style="font-size:120%">${funciones.setMoneda(rows.TOTALPRECIO,'Q')}</b>
+                                    <b class="text-mostaza" style="font-size:120%">${funciones.setMoneda(rows.TOTALPRECIO,'Q')}</b>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="row">
+                            <div class="col-4 " align="right">
+                            </div>
                             <div class="col-4 " align="right">
                                 <button class="btn btn-secondary btn-sm" onClick="fcnCambiarCantidad(${rows.ID},${rows.CANTIDAD},'${rows.CODPROD}',${rows.EXISTENCIA},${rows.PRECIO});">
                                     <i class="fal fa-edit"></i>Editar

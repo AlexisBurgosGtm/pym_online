@@ -38,6 +38,8 @@ let GlobalTotalPagado = 0;
 let GlobalCodBodega = '01';
 let GlobalTipoCobro = 'TERMINAR';
 let GlobalSelectedSaldoVencidoCliente = 0;
+let GlobalSelectedTipoClie = 'P';
+
 
 let GlobalSelectedCodCategoria = '';
 
@@ -74,16 +76,19 @@ let GlobalSistema = 'ISC';
 
 let GlobalLoaderMini = `<div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div>`;
 
-let GlobalLoader = `
+let GlobalLoader = `PyM 
                 <div>
-                    <div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div>
-                    <div class="spinner-grow text-info" role="status"><span class="sr-only">Loading...</span></div>
-                    <div class="spinner-grow text-danger" role="status"><span class="sr-only">Loading...</span></div>
-                    <div class="spinner-grow text-warning" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="spinner-border text-mostaza" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="spinner-grow text-mostaza" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="spinner-grow text-mostaza" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="spinner-grow text-mostaza" role="status"><span class="sr-only">Loading...</span></div>
                 </div>
                 `
 
 let GlobalUrl = document.location.origin.toString();
+let GlobalUrlCalls = '';
+
+let data_usuario = [];
 
 let nowhatsapp = '50257255092';
 

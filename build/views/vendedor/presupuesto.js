@@ -42,7 +42,7 @@ function getView(){
                 <i class="fal fa-calendar"></i>
             </button>
 
-            <button class="btn btn-danger btn-bottom-r btn-xl btn-circle hand shadow" id="btnMenuPresupuesto">
+            <button class="btn btn-mostaza btn-bottom-r btn-xl btn-circle hand shadow" id="btnMenuPresupuesto">
                 <i class="fal fa-chart-pie"></i>
             </button>
 
@@ -124,7 +124,7 @@ function getView(){
             return `
             <div class="card card-rounded shadow p-2">
                 <div class="card-body">
-                    <h5 class="negrita text-danger">Presupuesto Año</h5>
+                    <h5 class="negrita text-mostaza">Presupuesto Año</h5>
                     <div class="form-group">
                         <label>Seleccione Año:</label>                        
                         <select class="form-control" id="cmbAnioP">

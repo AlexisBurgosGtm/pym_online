@@ -1,4 +1,25 @@
 let apigen = {
+    login:(sucursal,usuario,clave)=>{
+
+        return new Promise((resolve,reject)=>{
+            axios.post('/empleados/login',{
+               sucursal:sucursal,
+               u:usuario,
+               p:clave
+            })
+            .then((response) => {
+                let data = response.data.recordset;
+                if(Number(response.data.rowsAffected[0])>0){
+                    resolve(data);             
+                }else{
+                    reject('error');
+                    
+                }             
+            }, (error) => {
+                reject('error');
+            });
+        }) 
+    },
     empleadosLogin : (sucursal,user,pass)=>{
         let f = new Date();
         return new Promise((resolve,reject)=>{
@@ -127,15 +148,15 @@ let apigen = {
                         
                         switch (rows.STVISITA) {
                             case 'VENTA':
-                                stClassClie='bg-success text-white card-rounded border-secondary';
+                                stClassClie='bg-success text-white card-rounded border-mostaza';
                                 stNomStatus= 'VENDIDO';
                                 break;
                             case 'CERRADO':
-                                stClassClie='bg-warning card-rounded border-secondary';
+                                stClassClie='bg-warning card-rounded border-mostaza';
                                 stNomStatus= 'CERRADO';        
                                 break;
                             case 'NODINERO':
-                                stClassClie='bg-secondary text-white card-rounded border-secondary';
+                                stClassClie='bg-secondary text-white card-rounded border-mostaza';
                                 stNomStatus= 'SIN DINERO';
                                 break;
                         
@@ -324,8 +345,8 @@ let apigen = {
             
             data.map((rows)=>{                    
                         strdata = strdata + `
-                    <tr class='card border-secondary hand card-rounded' onclick="getMenuCliente('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}','${rows.SALDO_VENCIDO}');">
-                        <td><b>${rows.NEGOCIO} - ${funciones.limpiarTexto(rows.NOMCLIE)}</b>
+                    <tr class='card border-mostaza hand card-rounded' onclick="getMenuCliente('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}','${rows.SALDO_VENCIDO || 0}');">
+                        <td><b class="text-mostaza">${funciones.limpiarTexto(rows.NEGOCIO)} - ${funciones.limpiarTexto(rows.NOMCLIE)}</b>
                             <br>
                             <small>${funciones.limpiarTexto(rows.DIRCLIE)}, ${rows.DESMUNI}<b></b></small>
                             <br>
@@ -343,7 +364,7 @@ let apigen = {
                                     <small>Saldo Total: ${funciones.setMoneda(rows.SALDO||0,'Q')}</small>    
                                 </div>
                                 <div class="col-6">
-                                    <small class="text-danger negrita">Saldo Vencido: ${funciones.setMoneda(rows.SALDO_VENCIDO||0,'Q')}</small>    
+                                    <small class="text-danger negrita h5">Vencido: ${funciones.setMoneda(rows.SALDO_VENCIDO||0,'Q')}</small>    
                                 </div>
                             </div>
                             
@@ -675,11 +696,14 @@ let apigen = {
 
 
     },
-    precios_lista: async(sucursal,filtro)=>{
+    precios_lista: async(sucursal,filtro,codbodegas,tipoclie,config_tipocosto)=>{
         return new Promise((resolve,reject)=>{
             axios.post('/productos/lista_precios', {
                 sucursal: sucursal,
-                filtro:filtro
+                filtro:filtro,
+                codbodega:codbodegas,
+                tipoclie:tipoclie,
+                config_tipocosto:config_tipocosto
             })
             .then((response) => {
                 if(response=='error'){

@@ -110,6 +110,40 @@
   color: rgb(230, 145, 18); 
 }
 
+.btn-mostaza {
+  color: #fff;
+  background-color: rgb(230, 145, 18);
+  border-color:  rgb(230, 145, 18)}
+  .btn-info:hover {
+    color: #fff;
+    background-color: rgb(230, 145, 18);
+    border-color:  rgb(230, 145, 18); }
+  .btn-info:focus, .btn-info.focus {
+    -webkit-box-shadow: 0 0 0 0.2rem  rgb(230, 145, 18);
+            box-shadow: 0 0 0 0.2rem rgb(230, 145, 18); }
+  .btn-info.disabled, .btn-info:disabled {
+    color: #fff;
+    background-color: rgb(230, 145, 18);
+    border-color:  rgb(230, 145, 18); }
+  .btn-info:not(:disabled):not(.disabled):active, .btn-info:not(:disabled):not(.disabled).active,
+  .show > .btn-info.dropdown-toggle {
+    color: #fff;
+    background-color: rgb(230, 145, 18);
+    border-color: rgb(230, 145, 18); }
+    .btn-info:not(:disabled):not(.disabled):active:focus, .btn-info:not(:disabled):not(.disabled).active:focus,
+    .show > .btn-info.dropdown-toggle:focus {
+      -webkit-box-shadow: 0 0 0 0.2rem  rgb(230, 145, 18);
+              box-shadow: 0 0 0 0.2rem rgb(230, 145, 18); }
+
+
+
+
+
+
+
+
+
+
 .bg-gris {
   background-color: #505050 !important; }
 

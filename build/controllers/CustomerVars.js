@@ -9,7 +9,10 @@ let GlobalVentaMinima = 1;
 
 let dataEmpresas = [ 
     {codsucursal:"8328080-4",nomsucursal:"EL ANGEL MAYOREO",color:"success"}
-  ];
+];
+
+let CONFIG_EMPRESA = {TIPOCOSTO:"PROMEDIO"};
+
 
 let FEL = {
     CodigoEstablecimiento:"1",
