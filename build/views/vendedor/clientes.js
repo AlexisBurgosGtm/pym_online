@@ -3,42 +3,19 @@ function getView(){
         body:()=>{
             return `
                 <div class="col-12 p-0 shadow bg-white card-rounded">
-                  
-
                     <div class="tab-content" id="myTabHomeContent">
-                        <div class="tab-pane fade" id="dias" role="tabpanel" aria-labelledby="dias-tab">
+                        <div class="tab-pane fade show active" id="dias" role="tabpanel" aria-labelledby="dias-tab">
 
-                            ${view.dias()}
-
-                        </div>
-                        <div class="tab-pane fade show active" id="clientes" role="tabpanel" aria-labelledby="clientes-tab">
                             ${view.tabsClientes()}
-                        </div>
 
-                        <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                   
-                          
                         </div>
-                      
-                    
                     </div>
-
                     <ul class="nav nav-tabs hidden" id="myTabHome" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active negrita text-success" id="tab-dias" data-toggle="tab" href="#dias" role="tab" aria-controls="profile" aria-selected="false">
                                 <i class="fal fa-list"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link negrita text-danger" id="tab-clientes" data-toggle="tab" href="#clientes" role="tab" aria-controls="home" aria-selected="true">
-                                <i class="fal fa-comments"></i></a>
-                        </li> 
-                        <li class="nav-item">
-                            <a class="nav-link negrita text-info" id="tab-home" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-                                <i class="fal fa-edit"></i></a>
-                        </li>
-                                                    
+                        </li>                       
                     </ul>
-
                 </div>
                
             `
@@ -139,51 +116,12 @@ function getView(){
             return `
             <div class="panel-container show">
                 <div class="panel-content bg-white">
-                   
                     <div class="tab-content py-3">
-
-                        <div class="tab-pane fade" id="panelNoVisitados" role="tabpanel">
-                            <div class="table-responsive">
-                                
-                                <input type="text" id="txtFiltrarCliente" class="form-control border-secondary border-top-0 border-right-0 border-left-0" placeholder="Buscar en la lista...">
-
-                                <table class="table table-responsive table-hover table-bordered col-12 p-0" id="tblLista">
-                                    <thead class="bg-secondary text-white">
-                                        <tr>
-                                            <td class="negrita">Cliente <small class="text-secondary">---------</small>Dirección</td>
-                                          
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tblClientes">
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        
-                        <div class="tab-pane fade" id="panelVisitados" role="tabpanel">
-                            <div class="table-responsive">
-                                <table class="table table-responsive table-striped table-hover table-bordered" id="tblLista">
-                                    <thead class="bg-warning">
-                                        <tr>
-                                            <td class="negrita">Cliente / Dirección</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tblClientesVisitados">
-
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
-
-                        <div class="tab-pane fade active show" id="panelAjenos" role="tabpanel">
-                                                                                 
+                        <div class="tab-pane fade active show" id="panelAjenos" role="tabpanel">                               
                             <div class="form-group p-2">
                                 <i class="fal fa-user text-mostaza" style="font-size:140%"></i>
                                 <label class="negrita text-mostaza">Buscar clientes por Nombre:</label>
                                 <div class="input-group">               
-                            
                                     <input type="text" class="form-control border-mostaza negrita text-danger" id="txtClientesAjenosBuscar" placeholder="Escriba para buscar cliente...">    
                                     <div class="input-group-append">
                                         <button class="btn btn-md btn-icon btn-mostaza btn-round" id="btnClientesAjenosBuscar">
@@ -206,12 +144,9 @@ function getView(){
                                 </table>
                             </div>
                         </div>
-
                     </div>
                 
                     <ul class="nav nav-pills nav-justified" role="tablist">
-                        <li class="nav-item" id="btnTabNV"><a class="nav-link nav-link-custom" data-toggle="tab" href="#panelNoVisitados">No Visit</a></li>
-                        <li class="nav-item" id="btnTabV"><a class="nav-link nav-link-custom " data-toggle="tab" href="#panelVisitados">Visitados</a></li>
                         <li class="nav-item hidden" id="btnTabAjenos"><a id="btnTabAjenos2" class="nav-link nav-link-custom active" data-toggle="tab" href="#panelAjenos">Ajenos</a></li>
                     </ul>
                     
@@ -588,11 +523,6 @@ async function getHistorialCliente(codigo,nit,nombre){
 };
 
 
-async function setRecordatorioVisita(codigo, nit, nombre, direccion){
-    
-    
-};
-
 
 async function addListeners(){
 
@@ -603,18 +533,6 @@ async function addListeners(){
     //document.getElementById('cmbEditTipoNegocio').innerHTML = funciones.getComboTipoClientes();
 
 
-    //handler del dia de la semana
-    let cmbDiaVisita = document.getElementById('cmbDiaVisita');
-    cmbDiaVisita.innerHTML = funciones.ComboSemana("LETRAS");
-       
-    cmbDiaVisita.addEventListener('change',async()=>{
-        await apigen.clientesVendedor(GlobalCodSucursal,GlobalCodUsuario,cmbDiaVisita.value,'tblClientes','tblClientesVisitados')
-    })
-    
-    let f = new Date();
-    cmbDiaVisita.value = funciones.getDiaSemana(f.getDay());
-
-    
     let btnCerrarModalCliente = document.getElementById('btnCerrarModalCliente');
     btnCerrarModalCliente.addEventListener('click',()=>{
         hideMenuLateral()
@@ -669,15 +587,8 @@ async function addListeners(){
         classNavegar.ventas(GlobalSelectedCodCliente,GlobalSelectedNomCliente,GlobalSelectedDirCliente);
     });
 
-    let txtFiltrarCliente = document.getElementById('txtFiltrarCliente');
-    txtFiltrarCliente.addEventListener('keyup',(e)=>{
-        funciones.FiltrarTabla('tblLista','txtFiltrarCliente');
-    });
-
-    await apigen.clientesVendedor(GlobalCodSucursal,GlobalCodUsuario,cmbDiaVisita.value,'tblClientes','tblClientesVisitados')
 
  
-
     let btnClientesAjenosBuscar = document.getElementById('btnClientesAjenosBuscar');
     btnClientesAjenosBuscar.addEventListener('click', async ()=>{
         
@@ -698,11 +609,6 @@ async function addListeners(){
             btnClientesAjenosBuscar.click();
         }
     })
-
-    //await apigen.vendedorTotalDia(GlobalCodSucursal,GlobalCodUsuario,funciones.getFecha(),'lbTotalDia');
-
-    //verifica si hay pedidos pendientes
-    //dbCargarPedidosPendientes();
 
     //BOTON PARA CAMBIAR GPS EN MODAL EDIT CLIENTE
     document.getElementById('btnEditGps').addEventListener('click',()=>{
@@ -778,9 +684,6 @@ async function addListeners(){
 
     });
 
-    getListaClientes('AJENOS');
-
-    //document.getElementById('btnPedidosPend').style ="visibility:visible";
 
     funciones.slideAnimationTabs();
     
@@ -789,17 +692,6 @@ async function addListeners(){
 
 function getListaClientes(nodia){
 
-    if(nodia=='AJENOS'){
-        //document.getElementById('btnTabAjenos').style = "visibility:hidden";
-        document.getElementById('btnTabNV').style = "visibility:hidden";
-        document.getElementById('btnTabV').style = "visibility:hidden";
-        document.getElementById('btnTabAjenos2').click();
-    }else{
-        //document.getElementById('btnTabAjenos').style = "visibility:hidden";
-        document.getElementById('btnTabNV').style = "visibility:visible";
-        document.getElementById('btnTabV').style = "visibility:visible";
-        document.getElementById('btnTabNV').click();
-    }
 
     apigen.clientesVendedor(GlobalCodSucursal,GlobalCodUsuario,nodia,'tblClientes','tblClientesVisitados')
     document.getElementById('tab-clientes').click();

@@ -1,4 +1,4 @@
-const DbName = "ventasoffline6";
+const DbName = "ventasoffline7";
 
 var tblDocumentos = {
     name: 'documentos',
@@ -88,6 +88,7 @@ var tblTempventas = {
         TOTALUNIDADES:{dataType: "number"},
         COSTO:{dataType: "number"},
         PRECIO:{dataType: "number"},
+        DESCUENTO:{dataType: "number"},
         TOTALCOSTO:{dataType: "number"},
         TOTALPRECIO:{dataType: "number"},       
         EXENTO:{dataType: "number"},
@@ -95,7 +96,9 @@ var tblTempventas = {
         TIPOPRECIO:{dataType: "string"},
         EXISTENCIA:{dataType: "number"},
         CODBODEGA:{dataType: "string"},
-        NOLOTE:{dataType: "string"}
+        NOLOTE:{dataType: "string"},
+        CODLISTA:{dataType: "string"},
+        FLETE:{dataType: "number"}
     }
 };
 
@@ -114,6 +117,7 @@ var tblTempventasPos = {
         TOTALUNIDADES:{dataType: "number"},
         COSTO:{dataType: "number"},
         PRECIO:{dataType: "number"},
+        DESCUENTO:{dataType: "number"},
         TOTALCOSTO:{dataType: "number"},
         TOTALPRECIO:{dataType: "number"},       
         EXENTO:{dataType: "number"},
@@ -121,7 +125,9 @@ var tblTempventasPos = {
         TIPOPRECIO:{dataType: "string"},
         EXISTENCIA:{dataType: "number"},
         CODBODEGA:{dataType: "string"},
-        NOLOTE:{dataType: "string"}
+        NOLOTE:{dataType: "string"},
+        CODLISTA:{dataType: "string"},
+        FLETE:{dataType: "number"}
     }
 };
 
@@ -165,9 +171,12 @@ var tempcenso = {
 
 var database = {
     name: DbName,
-    tables: [tblDocumentos,tblProductos,tblClientes,tblTempventas,tblTempventasPos,tblCredenciales,tempcenso]
+    tables: [tblTempventas,tblTempventasPos]
 };
  
+//tables: [tblDocumentos,tblProductos,tblClientes,tblTempventas,tblTempventasPos,tblCredenciales,tempcenso]
+
+
 // initiate jsstore connection
 var connection = new JsStore.Connection();
 

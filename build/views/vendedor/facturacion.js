@@ -734,9 +734,9 @@ async function fcnAgregarProductoVenta(codprod,desprod,codmedida,cantidad,equiva
                     TIPOPRECIO:GlobalSelectedTipoClie,
                     EXISTENCIA:GlobalSelectedExistencia,
                     CODBODEGA:GlobalSelectedCodBodega.toString(),
-                    NOLOTE:GlobalSelectedNoLote.toString()
+                    NOLOTE:GlobalSelectedNoLote.toString(),
+                    CODLISTA:GlobalSelectedCodLista
                 };
-                ALEXIS
                 insertTempVentas(data)
                 .then(()=>{                    
       
@@ -836,7 +836,8 @@ async function fcnCargarGridTempVentas(idContenedor){
                         </div>
                         
                         <div class="row">
-                            <div class="col-4 " align="right">
+                            <div class="col-4 " align="left">
+                                <small class="negrita">LOTE: ${rows.NOLOTE}</small>
                             </div>
                             <div class="col-4 " align="right">
                                 <button class="btn btn-secondary btn-sm" onClick="fcnCambiarCantidad(${rows.ID},${rows.CANTIDAD},'${rows.CODPROD}',${rows.EXISTENCIA},${rows.PRECIO});">
@@ -994,7 +995,8 @@ async function fcnFinalizarPedido(){
                                 hora:hora,
                                 nitdoc:nitdocumento,
                                 fecha_operacion:funciones.getFecha(),
-                                concre:concre
+                                concre:concre,
+                                tipoclie:GlobalSelectedTipoClie
                         })
                         .then(async(response) => {
                             if(response.data=='error'){
@@ -1015,9 +1017,9 @@ async function fcnFinalizarPedido(){
                                 }else{
     
                                     funciones.Aviso('Pedido enviado exitosamente!!')
-                                    classEmpleados.updateMyLocation();            
+                                    //classEmpleados.updateMyLocation();            
                                     //actualiza la última venta del cliente
-                                    apigen.updateClientesLastSale(nit,'VENTA');
+                                    //apigen.updateClientesLastSale(nit,'VENTA');
                                     //elimina el temp ventas asociado al empleado
                                     deleteTempVenta(GlobalUsuario);
                                          

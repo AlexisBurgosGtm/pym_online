@@ -183,6 +183,8 @@ function updateDateDownload() {
 
 function selectDateDownload() {
 
+    return;
+
     return new Promise(async(resolve,reject)=>{
         var response = await connection.select({
             from: "credenciales",
@@ -200,6 +202,8 @@ function selectDateDownload() {
 
 function downloadProductos (){
 
+    return;
+    
     return new Promise((resolve,reject)=>{
 
         axios.post('/ventas/buscarproductotodos', {sucursal:GlobalCodSucursal})  
@@ -326,6 +330,8 @@ function deleteClientes(){
 
 function selectCliente(dia) {
 
+    return;
+    
     return new Promise(async(resolve,reject)=>{
         var response = await connection.select({
             from: "clientes",
@@ -340,6 +346,8 @@ function selectCliente(dia) {
 };
 
 async function updateSaleCliente(codigo) {
+
+    return;
 
     var noOfRowsUpdated = await connection.update({ 
             in: "clientes",

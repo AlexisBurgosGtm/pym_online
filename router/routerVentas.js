@@ -1072,7 +1072,7 @@ function getCorrelativo(correlativo){
 // INSERTA UN PEDIDO EN LAS TABLAS DE me-DOCUMENTOS Y me-DOCPRODUCTOS
 router.post("/insertventa", async (req,res)=>{
     
-    const {jsondocproductos,sucursal,empnit,anio,mes,dia,coddoc,correl,fecha,fechaentrega,formaentrega,codcliente,nomclie,codbodega,totalcosto,totalprecio,nitclie,dirclie,obs,direntrega,usuario,codven,lat,long,hora,nitdoc,fecha_operacion,concre} = req.body;
+    const {jsondocproductos,sucursal,empnit,anio,mes,dia,coddoc,correl,tipoclie,fecha,fechaentrega,formaentrega,codcliente,nomclie,codbodega,totalcosto,totalprecio,nitclie,dirclie,obs,direntrega,usuario,codven,lat,long,hora,nitdoc,fecha_operacion,concre} = req.body;
   
     let tblDocproductos = JSON.parse(jsondocproductos);
    
@@ -1080,11 +1080,15 @@ router.post("/insertventa", async (req,res)=>{
     let qryDocproductos = ''; // inserta los datos de la tabla docproductos
     let qryCorrelativo = ''; //actualiza el correlativo del documento
 
+    let tipocambio = 7.8;
+
     //carga los espacios en blanco en el correlativo actual
     let correlativo = correl;
     correlativo = getCorrelativo(correlativo);
 
+    let item = 0;
     tblDocproductos.map((p)=>{
+        item += 1;
         qryDocproductos = qryDocproductos + `
         INSERT INTO [dbo].[Docproductos]
            ([EMP_NIT],[DOC_ANO],[DOC_MES],[CODDOC],[DOC_NUMERO],[DOC_ITEM],[CODPROD]
@@ -1103,17 +1107,32 @@ router.post("/insertventa", async (req,res)=>{
            ,[TOTCOSINVBOD],[COSTOINVCOM],[COSTOINVCOMBOD],[NITCLIEPROD],[CODPRODLEECODIGO],[CANTIDADRESERVA]
            ,[ANTICIPOPED],[CANTIDADPED],[CANTIDADINGRESADA],[TOMARDATOSINV])
      SELECT 
-            '${sucursal}'AS EMP_NIT, ${2023} AS DOC_ANO, '${3} AS DOC_MES,	
+            '${sucursal}'AS EMP_NIT, ${2023} AS DOC_ANO, ${3} AS DOC_MES,	
             '${coddoc}' AS CODDOC, '${correlativo}' AS DOC_NUMERO, ${item} AS DOC_ITEM,	
-            '${codprod}' AS CODPROD, '${codmedida}'AS CODMEDIDA,	${cantidad} AS CANTIDAD,	
-            ${equivale} AS EQUIVALE, ${cantidadinv} AS CANTIDADINV,	${ultimo} AS COSTO,	
-            ${precio} AS PRECIO, ${ultimo*cantidadinv} AS TOTALCOSTO,
-            ${precio*cantidadinv} AS TOTALPRECIO, '' AS BODEGAENTRADA,	'${bodegasalida}' AS BODEGASALIDA,	
-            ${subtotal} AS SUBTOTAL, ${descuento} AS DESCUENTOPROD,	${pordescuento} AS PORDESCUPROD,	
-            0 AS DESCUENTOFAC,	0 AS PORDESCUFAC,	${descuento} AS TOTALDESCUENTO,	
-            '${descripcion}' AS DESCRIPCION, ${subtotal} AS SUBTOTALPROD,	
-            ${tipocambio} AS TIPOCAMBIO, ${precio} AS PRODPRECIO, ${cantidadinv} AS CANTIDADENVIADA,	
-            '' AS CODFAC,	''AS NUMFAC,	0AS ITEMFAC,	0AS NOAFECTAINV,	''AS PRODFVENCE,	0AS DOCPESO,	'${promedio}'AS COSTOINV,	0AS FLETE,	0AS TOTALPRECIOFIN,	0AS PRECIOFIN,	'${promedio*cantidadinv}'AS TOTALCOSTOINV,	0AS CANTIDADBONI,	''AS CODOPR,	''AS NUMOPR,	0AS ITEMOPR,	''AS CODINV,	''AS NUMINV,	0AS ITEMINV,	'${tipoclie}'AS TIPOCLIE,	'${lista}'AS LISTA,	0AS PORIVA,	0AS VALORIVA,	'${lote}'AS NOLOTE,	0AS VALORIMPU1,	''AS DESEMPAQUE,	0AS SALDOINVANTCOM,	''AS NCUENTAMESA,	0AS CUENTACERRADA,	0AS COSTODOL,	'${promediodol}'AS COSTOINVDOL,	0AS TOTALCOSTODOL,	'${promediodol*cantidadinv}'AS TOTALCOSTOINVDOL,	0AS IMPCOMBUSTIBLE,	0AS CODVENPROD,	0AS COMIVEN,	0AS SOBREPRECIO,	''AS CODREG,	''AS NUMREG,	0AS ITEMREG,	0AS CANTIDADORIGINAL,	0AS CANTIDADMODIFICADA,	''AS NSERIETARJETA,	''AS CODOC,	''AS NUMOC,	0AS PORTIMBREPRENSA,	0AS VALORTIMBREPRENSA,	''AS CODTIPODESCU,	0AS TOTALPUNTOS,	0AS ITEMOC,	''AS CODPRODORIGEN,	''AS CODMEDIDAORIGEN,	0AS CANTIDADDEVUELTA,	''AS CODARANCEL,	0AS VALOR_IDB,	0AS POR_IDB,	0AS PRE_IDB,	1AS CANTIDADPIEZAS,	0AS COSTOINVBOD,	0AS TOTCOSINVBOD,	0AS COSTOINVCOM,	0AS COSTOINVCOMBOD,	''AS NITCLIEPROD,	'${codprod}'AS CODPRODLEECODIGO,	0AS CANTIDADRESERVA,	0AS ANTICIPOPED,	0AS CANTIDADPED,	0AS CANTIDADINGRESADA,	0AS TOMARDATOSINV
+            '${p.CODPROD}' AS CODPROD, '${p.CODMEDIDA}'AS CODMEDIDA,	${p.CANTIDAD} AS CANTIDAD,	
+            ${p.EQUIVALE} AS EQUIVALE, ${p.TOTALUNIDADES} AS CANTIDADINV,	${p.COSTO} AS COSTO,	
+            ${p.PRECIO} AS PRECIO, ${p.TOTALCOSTO} AS TOTALCOSTO,
+            ${p.TOTALPRECIO} AS TOTALPRECIO, '' AS BODEGAENTRADA,	'${p.CODBODEGA}' AS BODEGASALIDA,	
+            ${p.TOTALPRECIO} AS SUBTOTAL, ${0} AS DESCUENTOPROD, ${0} AS PORDESCUPROD,	
+            0 AS DESCUENTOFAC,	0 AS PORDESCUFAC,	${0} AS TOTALDESCUENTO,	
+            '${p.DESPROD}' AS DESCRIPCION, ${p.TOTALPRECIO} AS SUBTOTALPROD,	
+            ${tipocambio} AS TIPOCAMBIO, ${p.PRECIO} AS PRODPRECIO, 
+            ${p.TOTALUNIDADES} AS CANTIDADENVIADA,	
+            '' AS CODFAC, '' AS NUMFAC, 0 AS ITEMFAC, 0 AS NOAFECTAINV,	'' AS PRODFVENCE, 0 AS DOCPESO,	
+            ${p.COSTO} AS COSTOINV, 0 AS FLETE, 0 AS TOTALPRECIOFIN, 0 AS PRECIOFIN,	
+            ${p.TOTALCOSTO} AS TOTALCOSTOINV, 0 AS CANTIDADBONI, '' AS CODOPR, '' AS NUMOPR, 
+            0 AS ITEMOPR, '' AS CODINV, '' AS NUMINV, 0 AS ITEMINV,	
+            '${tipoclie}' AS TIPOCLIE,	'${p.CODLISTA}' AS LISTA, 0 AS PORIVA, 0 AS VALORIVA,	
+            '${p.NOLOTE}' AS NOLOTE, 0 AS VALORIMPU1, '' AS DESEMPAQUE,	0 AS SALDOINVANTCOM, '' AS NCUENTAMESA,	0 AS CUENTACERRADA,	
+            0 AS COSTODOL,	${p.COSTO} AS COSTOINVDOL,	0 AS TOTALCOSTODOL,	
+            ${p.TOTALCOSTO} AS TOTALCOSTOINVDOL,	
+            0 AS IMPCOMBUSTIBLE, 0 AS CODVENPROD, 0 AS COMIVEN,	0 AS SOBREPRECIO, '' AS CODREG,	'' AS NUMREG, 0 AS ITEMREG,	
+            0 AS CANTIDADORIGINAL,	0 AS CANTIDADMODIFICADA, '' AS NSERIETARJETA, '' AS CODOC, '' AS NUMOC,	0 AS PORTIMBREPRENSA,	
+            0 AS VALORTIMBREPRENSA,	'' AS CODTIPODESCU,	0 AS TOTALPUNTOS, 0 AS ITEMOC, '' AS CODPRODORIGEN,	'' AS CODMEDIDAORIGEN,	
+            0 AS CANTIDADDEVUELTA, '' AS CODARANCEL, 0 AS VALOR_IDB, 0 AS POR_IDB, 0 AS PRE_IDB, 1 AS CANTIDADPIEZAS,	
+            0 AS COSTOINVBOD, 0 AS TOTCOSINVBOD, 0 AS COSTOINVCOM, 0 AS COSTOINVCOMBOD, '' AS NITCLIEPROD,	
+            '${p.CODPROD}' AS CODPRODLEECODIGO, 0 AS CANTIDADRESERVA, 0 AS ANTICIPOPED, 0 AS CANTIDADPED, 0 AS CANTIDADINGRESADA,	
+            0 AS TOMARDATOSINV;
         ;`
     });
 
@@ -1127,7 +1146,7 @@ router.post("/insertventa", async (req,res)=>{
     let por_descuento = 0;
     let totaldescuento = 0;
     let ivadocumento = 0;
-    let tipocambio = 7.8;
+    
     let abono = totalprecio; 
     let saldo = totalprecio;
     let pagotarjeta = 0; 
@@ -1213,6 +1232,8 @@ SELECT
                     WHERE EMP_NIT='${empnit}' AND CODDOC='${coddoc}';`
       
     console.log(qryDocumentos);
+    console.log('*** ** *** *** *** *** *** ***')
+    console.log(qryDocproductos);
 
     execute.Query(res, qryCorrelativo + qryDocumentos + qryDocproductos);
     

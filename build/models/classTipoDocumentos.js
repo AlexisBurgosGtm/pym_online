@@ -81,7 +81,6 @@ let classTipoDocumentos = {
 
             axios.post('/tipodocumentos/correlativodoc', data)
             .then((response) => {
-                console.log(response);
                 if(response.data=='error'){
                     reject('0');
                 }else{

@@ -34,7 +34,7 @@ router.post('/lista_precios',async(req,res)=>{
     };
 
     let qry = `
-        SELECT EMP_NIT, 
+        SELECT TOP 50 EMP_NIT, 
                 CODPROD,
                 DESPROD,
                 ${strPrecio} AS PRECIO,

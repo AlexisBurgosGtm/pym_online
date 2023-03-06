@@ -63,6 +63,7 @@ let GlobalSelectedPrecio = 0;
 let GlobalSelectedExistencia = 0;
 let GlobalSelectedCodBodega = '';
 let GlobalSelectedNoLote = '';
+let GlobalSelectedCodLista = '';
 // global vars para cantidad producto
 
 let GlobalSelectedCodEmbarque ='';
