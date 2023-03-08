@@ -34,6 +34,7 @@ let GlobalSelectedFecha;
 let GlobalCoddoc = 'PED01';
 let GlobalTotalDocumento = 0;
 let GlobalTotalCostoDocumento = 0;
+let GlobalTotalDescuento = 0;
 let GlobalTotalPagado = 0;
 let GlobalCodBodega = '01';
 let GlobalTipoCobro = 'TERMINAR';

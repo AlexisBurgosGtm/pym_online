@@ -458,6 +458,9 @@ function getMenuCliente(codigo,nombre,direccion,telefono,lat,long,nit,saldovenci
     GlobalSelectedSaldoVencidoCliente = Number(saldovencido) || 0;
     GlobalSelectedTipoClie = tipoclie;
 
+    if(GlobalSelectedSaldoVencidoCliente>0){funciones.Aviso('Cliente con saldo vencido. ' + funciones.setMoneda(GlobalSelectedSaldoVencidoCliente,'Q'))};
+
+    
     classNavegar.ventas(GlobalSelectedCodCliente,GlobalSelectedNomCliente,GlobalSelectedDirCliente,nit);
 
     //showMenuLateral('Opciones del Cliente');

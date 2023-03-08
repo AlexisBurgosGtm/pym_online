@@ -9,7 +9,9 @@ function getView(){
                         </label>
                     </div>
                     <div class="col-6 text-right">
-                        <h1 id="txtTotalVenta" class="text-mostaza negrita"></h1>
+                        <h3 id="txtTotalVenta" class="text-secondary negrita"></h3>
+                        <h5 id="txtTotalDescuento" class="text-danger negrita"></h5>
+                        <h1 id="txtTotalPagar" class="text-mostaza negrita"></h1>
                     </div>
                 </div>
 
@@ -313,7 +315,7 @@ function getView(){
                                                     +
                                                 </button>    
                                             </div>
-                                        </div>                            
+                                        </div>                               
                                     </div>                              
                                 </div>
 
@@ -323,8 +325,13 @@ function getView(){
                                     <br>
                                     <label>Subtotal:</label>
                                     <label class="text-danger h1 negrita" id="txtSubTotal">Q500</label>
+                                    <br>
+                                    <label>Descuento:</label>
+                                    <input type="number" class="form-control col-6 text-mostaza negrita h2" id="txtCantidadDescuento" value=0>
+                                    <br>
+                                    <label>A pagar:</label>
+                                    <label class="text-danger h1 negrita text-naranja" id="txtSubTotalDescuento">Q500</label>
                                 </div>
-                                <br>
                                 <br>
                                 <div class="row">
                                     <div class="col-6">
@@ -518,6 +525,12 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
 
 function addEventsModalCambioCantidad(){
 
+
+    document.getElementById('txtCantidadDescuento').addEventListener('input',()=>{
+            
+    });
+    
+    
     document.getElementById('btnCantGuardar').addEventListener('click',()=>{
         
         let nuevacantidad = Number(document.getElementById('txtCantNuevaCant').value) || 0;
@@ -554,6 +567,20 @@ function fcnIniciarModalCantidadProductos(){
     let btnCantidadUp = document.getElementById('btnCantidadUp');
     let btnCantidadDown = document.getElementById('btnCantidadDown');
     let txtSubTotal = document.getElementById('txtSubTotal'); //label
+    let txtDescuento = document.getElementById('txtCantidadDescuento');
+
+    txtDescuento.addEventListener('input',()=>{
+        let cant = parseInt(txtCantidad.value);
+        txtCantidad.value = cant + 1;
+
+        let _SubTotal = parseFloat(GlobalSelectedPrecio) * parseFloat(txtCantidad.value);
+        let _subtotalDescuento = Number(_SubTotal)-Number(txtDescuento.value||0);
+
+        //_SubTotalCosto = parseFloat(_Costo) * parseFloat(txtCantidad.value);
+        txtSubTotal.innerHTML = funciones.setMoneda(_SubTotal,'Q');
+        document.getElementById('txtSubTotalDescuento').innerHTML = funciones.setMoneda(_subtotalDescuento,'Q');
+        
+    });
 
     btnAgregarProducto.addEventListener('click',()=>{
         GlobalSelectedCantidad = Number(txtCantidad.value);
@@ -562,7 +589,7 @@ function fcnIniciarModalCantidadProductos(){
 
         
         
-        fcnAgregarProductoVenta(GlobalSelectedCodprod,GlobalSelectedDesprod,GlobalSelectedCodmedida,GlobalSelectedCantidad,GlobalSelectedEquivale,totalunidades,GlobalSelectedCosto,GlobalSelectedPrecio,totalexento);
+        fcnAgregarProductoVenta(GlobalSelectedCodprod,GlobalSelectedDesprod,GlobalSelectedCodmedida,GlobalSelectedCantidad,GlobalSelectedEquivale,totalunidades,GlobalSelectedCosto,GlobalSelectedPrecio,totalexento,txtDescuento);
         
         
     });
@@ -574,8 +601,11 @@ function fcnIniciarModalCantidadProductos(){
         txtCantidad.value = cant + 1;
 
         let _SubTotal = parseFloat(GlobalSelectedPrecio) * parseFloat(txtCantidad.value);
+        let _subtotalDescuento = Number(_SubTotal)-Number(txtDescuento.value||0);
+
         //_SubTotalCosto = parseFloat(_Costo) * parseFloat(txtCantidad.value);
         txtSubTotal.innerHTML = funciones.setMoneda(_SubTotal,'Q');
+        document.getElementById('txtSubTotalDescuento').innerHTML = funciones.setMoneda(_subtotalDescuento,'Q');
         
     })
 
@@ -583,12 +613,16 @@ function fcnIniciarModalCantidadProductos(){
         if (parseInt(txtCantidad.value)==1){
 
         }else{
-        let cant = parseInt(txtCantidad.value);
-        txtCantidad.value = cant - 1;
+                let cant = parseInt(txtCantidad.value);
+                txtCantidad.value = cant - 1;
 
-        let _SubTotal = parseFloat(GlobalSelectedPrecio) * parseFloat(txtCantidad.value);
-        //s_SubTotalCosto = parseFloat(_Costo) * parseFloat(txtCantidad.value);
-        txtSubTotal.innerHTML = funciones.setMoneda(_SubTotal,'Q');
+                let _SubTotal = parseFloat(GlobalSelectedPrecio) * parseFloat(txtCantidad.value);
+                let _subtotalDescuento = Number(_SubTotal)-Number(txtDescuento.value||0);
+
+                //s_SubTotalCosto = parseFloat(_Costo) * parseFloat(txtCantidad.value);
+                txtSubTotal.innerHTML = funciones.setMoneda(_SubTotal,'Q');
+                document.getElementById('txtSubTotalDescuento').innerHTML = funciones.setMoneda(_subtotalDescuento,'Q');
+            
         }
         
     })
@@ -683,9 +717,13 @@ function getDataMedidaProducto(codprod,desprod,codmedida,cantidad,equivale,total
         //modal para la cantidad del producto
         document.getElementById('txtDesProducto').innerText = desprod; //label
         document.getElementById('txtCodMedida').innerText = codmedida; //label
+        document.getElementById('txtCantidadDescuento').value = 0; //label
+        
         document.getElementById('txtPrecioProducto').innerText = funciones.setMoneda(precio,'Q'); //label
         document.getElementById('txtSubTotal').innerText = funciones.setMoneda(precio,'Q'); //label
-            
+        document.getElementById('txtSubTotalDescuento').innerText = funciones.setMoneda(precio,'Q'); //label
+        
+        
         document.getElementById('txtCantidad').value = 1;
     
         $("#ModalCantidadProducto").modal('show');    
@@ -698,7 +736,7 @@ function getDataMedidaProducto(codprod,desprod,codmedida,cantidad,equivale,total
 
 //GRID TEMP VENTAS
 // agrega el producto a temp_ventas
-async function fcnAgregarProductoVenta(codprod,desprod,codmedida,cantidad,equivale,totalunidades,costo,precio,exento){
+async function fcnAgregarProductoVenta(codprod,desprod,codmedida,cantidad,equivale,totalunidades,costo,precio,exento,descuento){
    
     if(Number(GlobalSelectedExistencia)<Number(totalunidades)){
         //funciones.AvisoError('No pude agregar una cantidad mayor a la existencia');
@@ -735,7 +773,8 @@ async function fcnAgregarProductoVenta(codprod,desprod,codmedida,cantidad,equiva
                     EXISTENCIA:GlobalSelectedExistencia,
                     CODBODEGA:GlobalSelectedCodBodega.toString(),
                     NOLOTE:GlobalSelectedNoLote.toString(),
-                    CODLISTA:GlobalSelectedCodLista
+                    CODLISTA:GlobalSelectedCodLista,
+                    DESCUENTO:Number(descuento.value||0)
                 };
                 insertTempVentas(data)
                 .then(()=>{                    
@@ -788,6 +827,108 @@ function fcnEliminarItem(id){
 };
 
 async function fcnCargarGridTempVentas(idContenedor){
+    
+    let tabla = document.getElementById(idContenedor);
+    tabla.innerHTML = GlobalLoader;
+
+    let varTotalVenta = 0; let varTotalCosto = 0; let varTotalDescuento = 0;
+    let varTotalItems =0;
+
+    let btnCobrarTotal = document.getElementById('btnCobrar')
+    btnCobrarTotal.disabled = true; //.innerText =  'Terminar';
+   
+    let coddoc = document.getElementById('cmbCoddoc').value;
+    
+    let containerTotalVenta = document.getElementById('txtTotalVenta');
+    containerTotalVenta.innerText = '--';
+
+    let containerTotalItems = document.getElementById('txtTotalItems');
+    containerTotalItems.innerHTML = '--'
+
+    try {
+        selectTempventas(GlobalUsuario)
+        .then((response)=>{
+            let idcant = 0;
+            let data = response.map((rows)=>{
+                idcant = idcant + 1;
+                varTotalItems += 1;
+                varTotalVenta = varTotalVenta + Number(rows.TOTALPRECIO);
+                varTotalCosto = varTotalCosto + Number(rows.TOTALCOSTO);
+                varTotalDescuento += Number(rows.DESCUENTO);
+                return `
+                <tr id="${rows.ID.toString()}" class="border-mostaza card card-rounded bg-white" ondblclick="funciones.hablar('${rows.DESPROD}')">
+                    <td class="text-left">
+                        ${rows.DESPROD}
+                        <br>
+                        <div class="row">
+                            <div class="col-7">
+                                <small class="negrita"><b>${rows.CODPROD} (Equivale: ${rows.EQUIVALE})</b></small>
+                                <br>
+                                <small>
+                                    Cantidad:<b class="text-info h4" id=${idcant}>${rows.CANTIDAD}</b>  ${rows.CODMEDIDA}  -  Precio Un:<b class="text-info h5">${funciones.setMoneda(rows.PRECIO,'Q')}</b>
+                                </small>
+                            </div>
+                            <div class="col-5">
+
+                                <div class="text-right" id=${'S'+idcant}>
+                                    <b class="text-secondary" style="font-size:110%">${funciones.setMoneda(rows.TOTALPRECIO,'Q')}</b>
+                                    <br><b class="text-danger" style="font-size:100%">${funciones.setMoneda(rows.DESCUENTO,'Q')}</b>
+                                    <br><b class="text-mostaza" style="font-size:120%">${funciones.setMoneda(Number(rows.TOTALPRECIO)-Number(rows.DESCUENTO),'Q')}</b>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-4 " align="left">
+                                <small class="negrita">LOTE: ${rows.NOLOTE}</small>
+                            </div>
+                            <div class="col-4 " align="right">
+                                <button class="btn btn-secondary btn-sm" onClick="fcnCambiarCantidad(${rows.ID},${rows.CANTIDAD},'${rows.CODPROD}',${rows.EXISTENCIA},${rows.PRECIO});">
+                                    <i class="fal fa-edit"></i>Editar
+                                </button>    
+                            </div>
+                            <div class="col-4 text-right" align="right">
+                                <button class="btn btn-sm btn-danger" onclick="fcnEliminarItem(${rows.ID});">
+                                    <i class="fal fa-trash"></i>Quitar
+                                </button>    
+                            </div>
+                        </div>
+                    </td>
+                    <br>                                        
+                </tr>`
+           }).join('\n');
+           tabla.innerHTML = data;
+           GlobalTotalDocumento = varTotalVenta;
+           GlobalTotalCostoDocumento = varTotalCosto;
+           GlobalTotalDescuento = varTotalDescuento;
+           containerTotalVenta.innerText = funciones.setMoneda(GlobalTotalDocumento,'Q ');
+           document.getElementById('txtTotalDescuento').innerText =funciones.setMoneda(GlobalTotalDescuento,'Q ');
+           document.getElementById('txtTotalPagar').innerText =funciones.setMoneda(Number(GlobalTotalDocumento)-Number(GlobalTotalDescuento),'Q ');
+           
+
+           if(GlobalTotalDocumento==0){
+                btnCobrarTotal.disabled = true;
+           }else{
+                btnCobrarTotal.disabled = false;
+           }
+           containerTotalItems.innerHTML = `${varTotalItems} items`;
+        })
+    } catch (error) {
+        GlobalTotalDocumento = 0;
+        GlobalTotalCostoDocumento = 0;
+        GlobalTotalDescuento = 0;
+        tabla.innerHTML = 'No se logró cargar la lista...';
+        containerTotalVenta.innerText = '0';
+        document.getElementById('txtTotalDescuento').innerText = '0';
+        document.getElementById('txtTotalPagar').innerText = '0';
+           
+        btnCobrarTotal.disabled = true; //innerText =  'Terminar';
+        containerTotalItems.innerHTML = `0 items`;
+    }
+
+};
+
+async function BACKUP_fcnCargarGridTempVentas(idContenedor){
     
     let tabla = document.getElementById(idContenedor);
     tabla.innerHTML = GlobalLoader;
@@ -984,6 +1125,7 @@ async function fcnFinalizarPedido(){
                                 nomclie:ClienteNombre,
                                 totalcosto:GlobalTotalCostoDocumento,
                                 totalprecio:GlobalTotalDocumento,
+                                totaldescuento:GlobalTotalDescuento,
                                 nitclie:nit,
                                 dirclie:dirclie,
                                 obs:obs,
