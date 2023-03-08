@@ -225,7 +225,33 @@ function get_tbl_dia(){
     let container = document.getElementById('tblVentaDia');
     container.innerHTML = GlobalLoader;
 
+    let str = '';
 
+    axios.post('/presupuesto/dia', {
+        sucursal: sucursal,
+        fecha:fecha
+    })
+    .then((response) => {
+        if(response=='error'){
+            funciones.AvisoError('Error en la solicitud');
+            container.innerHTML = 'No hay datos para mostrar...';
+        }else{
+            const data = response.data.recordset;
+            data.map((r)=>{
+                str += `
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                `
+            })
+        }
+    }, (error) => {
+        funciones.AvisoError('Error en la solicitud');
+        container.innerHTML = 'No hay datos para mostrar...';
+    });
 
 };
 

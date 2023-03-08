@@ -19,6 +19,7 @@ let routerCenso = require('./router/routerCenso');
 var routerFEL = require('./router/routerFEL');
 var routerConfig = require('./router/routerConfig');
 var router_POS = require('./router/router_POS');
+var routerPresupuesto = require('./router/routerPresupuesto');
 
 
 var http = require('http').Server(app);
@@ -278,6 +279,10 @@ app.use('/usuarios', routerUsuarios);
 
 // Router para facturación electrónica FEL
 app.use('/fel', routerFEL);
+
+// Router para presupuesto
+app.use('/presupuesto', routerPresupuesto);
+
 
 // Router para configuraciones
 app.use('/config', routerConfig);

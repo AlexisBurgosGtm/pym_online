@@ -327,7 +327,20 @@ function getView(){
                                     <label class="text-danger h1 negrita" id="txtSubTotal">Q500</label>
                                     <br>
                                     <label>Descuento:</label>
-                                    <input type="number" class="form-control col-6 text-mostaza negrita h2" id="txtCantidadDescuento" value=0>
+                                    <div class="input-group">
+                                        <select class="form-control col-4" id="cmbCantidadPorcentajeDescuento">
+                                            <option value="0.">0%</option>
+                                            <option value="0.05">5%</option>
+                                            <option value="0.10">10%</option>
+                                            <option value="0.15">15%</option>
+                                            <option value="0.20">20%</option>
+                                            <option value="0.25">25%</option>
+                                            <option value="0.40">40%</option>
+                                            <option value="0.50">50%</option>
+                                            <option value="0.75">75%</option>
+                                        </select>
+                                        <input type="number" class="form-control col-6 text-mostaza negrita h2" id="txtCantidadDescuento" value=0>
+                                    </div>
                                     <br>
                                     <label>A pagar:</label>
                                     <label class="text-danger h1 negrita text-naranja" id="txtSubTotalDescuento">Q500</label>
@@ -476,8 +489,7 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
 
 
     let cmbCoddoc = document.getElementById('cmbCoddoc');
-    //classTipoDocumentos.comboboxTipodoc('PED','cmbCoddoc');
-    //cmbCoddoc.value = GlobalCoddoc;
+  
     let str = data_usuario.map((r)=>{if(r.TIPODOC=='PED'){if(r.EMP_NIT.toString()==GlobalCodSucursal.toString()){return `<option value='${r.NOMOPERACION}'>${r.NOMOPERACION}</option>`}}}).join('\n')
     cmbCoddoc.innerHTML = str;
 
@@ -581,6 +593,14 @@ function fcnIniciarModalCantidadProductos(){
         document.getElementById('txtSubTotalDescuento').innerHTML = funciones.setMoneda(_subtotalDescuento,'Q');
         
     });
+
+
+    let cmbCantidadPorcentajeDescuento = document.getElementById('cmbCantidadPorcentajeDescuento');
+    cmbCantidadPorcentajeDescuento.addEventListener('change',()=>{
+        let subt = parseFloat(GlobalSelectedPrecio) * parseFloat(txtCantidad.value);
+        txtDescuento.value = (Number(cmbCantidadPorcentajeDescuento.value||0) * subt).toFixed(2)
+    });
+
 
     btnAgregarProducto.addEventListener('click',()=>{
         GlobalSelectedCantidad = Number(txtCantidad.value);
