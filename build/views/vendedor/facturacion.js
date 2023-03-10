@@ -1128,6 +1128,8 @@ async function fcnFinalizarPedido(){
             .then((value)=>{
                 if(value==true){
          
+                    if(Number(GlobalSelectedSaldoVencidoCliente)==0){}else{funciones.Aviso('Este cliente se registrará con saldo pendiente')};
+
                         axios.post('/ventas/insertventa', {
                                 jsondocproductos:JSON.stringify(response),
                                 sucursal:GlobalCodSucursal,
@@ -1158,7 +1160,8 @@ async function fcnFinalizarPedido(){
                                 nitdoc:nitdocumento,
                                 fecha_operacion:funciones.getFecha(),
                                 concre:concre,
-                                tipoclie:GlobalSelectedTipoClie
+                                tipoclie:GlobalSelectedTipoClie,
+                                saldopendiente:GlobalSelectedSaldoVencidoCliente
                         })
                         .then(async(response) => {
                             if(response.data=='error'){

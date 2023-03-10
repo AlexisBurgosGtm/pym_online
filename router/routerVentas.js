@@ -1072,7 +1072,7 @@ function getCorrelativo(correlativo){
 // INSERTA UN PEDIDO EN LAS TABLAS DE me-DOCUMENTOS Y me-DOCPRODUCTOS
 router.post("/insertventa", async (req,res)=>{
     
-    const {jsondocproductos,sucursal,empnit,anio,mes,dia,coddoc,correl,tipoclie,fecha,fechaentrega,formaentrega,codcliente,nomclie,codbodega,totalcosto,totalprecio,totaldescuento,nitclie,dirclie,obs,direntrega,usuario,codven,lat,long,hora,nitdoc,fecha_operacion,concre} = req.body;
+    const {jsondocproductos,saldopendiente,sucursal,empnit,anio,mes,dia,coddoc,correl,tipoclie,fecha,fechaentrega,formaentrega,codcliente,nomclie,codbodega,totalcosto,totalprecio,totaldescuento,nitclie,dirclie,obs,direntrega,usuario,codven,lat,long,hora,nitdoc,fecha_operacion,concre} = req.body;
   
     let tblDocproductos = JSON.parse(jsondocproductos);
    

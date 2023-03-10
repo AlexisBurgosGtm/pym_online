@@ -530,8 +530,8 @@ let funciones = {
       
     window.open(FEL.URL_REPORT_INFILE.toString() + fel_uudi)      
 
-},
-    convertDateNormal(date) {
+  },
+  convertDateNormal(date) {
       const [yy, mm, dd] = date.split(/-/g);
       return `${dd}/${mm}/${yy}`.replace('T00:00:00.000Z', '');
     },

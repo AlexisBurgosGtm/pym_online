@@ -69,9 +69,10 @@ function getView(){
                         <table class="table table-responsive">
                             <thead class="bg-info text-white">
                                 <tr>
-                                    <td>Producto</td>
-                                    <td>Cantidad</td>
+                                    <td>Documento</td>
+                                    <td>Cliente</td>
                                     <td>Importe</td>
+                                    <td></td>
                                 </tr>
                             </thead>
                             <tbody id="tblVentaDia">
@@ -217,7 +218,26 @@ function initView(){
 };
 
 
+function getParametros(tipo){
 
+    let param = '';
+
+    switch (tipo) {
+        case 'PEDIDOS':
+        data_usuario.map((r)=>{
+            if(r.TIPODOC=='PED'){
+                param += `'${r.NOMOPERACION}',`
+            }
+        })
+            break;
+
+    }
+
+    param = param.substr(0, param.length - 1); 
+
+    return param;
+
+};
 
 function get_tbl_dia(){
 
@@ -225,11 +245,16 @@ function get_tbl_dia(){
     let container = document.getElementById('tblVentaDia');
     container.innerHTML = GlobalLoader;
 
+
+    let paramCoddoc = getParametros('PEDIDOS');
+
+
     let str = '';
 
     axios.post('/presupuesto/dia', {
-        sucursal: sucursal,
-        fecha:fecha
+        sucursal: GlobalCodSucursal,
+        fecha:fecha,
+        coddoc:paramCoddoc
     })
     .then((response) => {
         if(response=='error'){
@@ -240,15 +265,30 @@ function get_tbl_dia(){
             data.map((r)=>{
                 str += `
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        ${r.CODDOC}-${r.CORRELATIVO}
+                        <br>
+                        <small>${funciones.convertDateNormal(r.FECHA)}</small>
+                    </td>
+                    <td>
+                        ${r.CLIENTE} (NIT: ${r.NIT})
+                        <br>
+                        <small>${r.DIRCLIE}</small>
+                    </td>
+                    <td>${funciones.setMoneda(r.IMPORTE,'Q')}</td>
+                    <td>
+                        <button class="btn bt-md btn-circle btn-info hand shadow" onclick="">
+                            <i class="fal fa-list"></i>
+                        </button>
+                    </td>
                 </tr>
+
                 `
             })
+            container.innerHTML = str;
         }
     }, (error) => {
+        console.log(error);
         funciones.AvisoError('Error en la solicitud');
         container.innerHTML = 'No hay datos para mostrar...';
     });
