@@ -105,6 +105,7 @@ function addListeners(){
 
         apigen.login(frmLogin.cmbSucursal.value,frmLogin.txtUser.value.trim(),frmLogin.txtPass.value.trim())
         .then((data)=>{
+            GlobalUsuario = frmLogin.txtUser.value.trim();
             data_usuario = data;
             classNavegar.inicio_vendedor();
         })

@@ -1194,7 +1194,7 @@ SELECT
         ${totaldescuento} AS DOC_DESCUENTOPROD, ${por_descuento} AS DOC_PORDESCUTOTAL, 	
         ${ivadocumento} AS DOC_IVA, ${totalprecio/1.12} AS DOC_SUBTOTALIVA, 	
         ${(totalprecio - totaldescuento)} AS DOC_SUBTOTAL, '${nitclie}' AS NITCLIE, 
-        0 AS DOC_PORDESCUFAC, 0 AS CODVEN, 0 AS DOC_ABONOS, 
+        0 AS DOC_PORDESCUFAC, ${codven} AS CODVEN, 0 AS DOC_ABONOS, 
         0 AS DOC_SALDO, 0 AS DOC_VUELTO, '${nitclie}' AS DOC_NIT, 0 AS DOC_PAGO, 	
         ''AS DOC_CODREF, ${tipocambio} AS DOC_TIPOCAMBIO, 0 AS DOC_PARCIAL, 	
         0 AS DOC_ANTICIPO, 	''AS ANT_CODDOC, ''AS ANT_DOCNUMERO, '' AS DOC_OBS, 	
@@ -1222,7 +1222,7 @@ SELECT
         '' AS COD_DEPARTA, 	'' AS FIRMAELECTRONICA, '' AS DOC_CODDOCRETENCION, '' AS DOC_SERIERETENCION, '' AS DOC_NUMRETENCION, 	
         '' AS FIRMAISC, 0 AS ISCENVIADO, '' AS IDELECTRONICA, 0 AS INTERESFAC, 0 AS TOTAL_IDB, 'N' AS TIPO_CONSTANCIA, 	
         '' AS NUM_CONSTANCIA, 0 AS VALOR_CONSTANCIA, '' AS CODDOCLIQ, '' AS NUMDOCLIQ, '' AS CODACTI, '' AS GASTOLIQ, 	
-        0 AS DOC_TOTCOSINVBOD, 0 AS ITEM_EVENTOLIQ, 0 AS DOC_LATITUD, 0 AS DOC_LONGITUD, '' AS DOC_NUMEROAPP, '' AS DOC_FIRMA_VEN, 	
+        0 AS DOC_TOTCOSINVBOD, 0 AS ITEM_EVENTOLIQ, ${lat} AS DOC_LATITUD, ${long} AS DOC_LONGITUD, '' AS DOC_NUMEROAPP, '' AS DOC_FIRMA_VEN, 	
         '' AS DOC_FIRMA_CLIE, '' AS DOC_DESPACHADA, '' AS DOC_SERIE_A, '' AS DOC_REFFACTURA_A, '' AS FIRMAELECTRONICA_A, 	
         '' AS IDELECTRONICA_A;`
                    
@@ -1230,10 +1230,7 @@ SELECT
                     SET CORRELATIVO=${nuevocorrelativo} 
                     WHERE EMP_NIT='${empnit}' AND CODDOC='${coddoc}';`
       
-    console.log(qryDocumentos);
-    console.log('*** ** *** *** *** *** *** ***')
-    console.log(qryDocproductos);
-
+    
     execute.Query(res, qryCorrelativo + qryDocumentos + qryDocproductos);
     
 });
